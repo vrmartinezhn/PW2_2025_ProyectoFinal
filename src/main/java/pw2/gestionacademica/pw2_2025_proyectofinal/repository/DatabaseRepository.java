@@ -133,6 +133,13 @@ public interface DatabaseRepository {
     @GET("/pls/apex/uthworkspace/appacademica/estudianteid")
     Call<EstudiantesResponse> getEstudiantePorId(@Query("id") int id);
 
+       @Headers({
+            "Accept: application/vnd.github.v3.full+json",
+            "User-Agent: Retrofit-Sample-App"
+    })
+    @GET("/pls/apex/uthworkspace/appacademica/estudiantecuenta")
+    Call<EstudiantesResponse> getEstudiantePornumero_cuenta(@Query("numero_cuenta") int numero_cuenta);
+
     
     
 }

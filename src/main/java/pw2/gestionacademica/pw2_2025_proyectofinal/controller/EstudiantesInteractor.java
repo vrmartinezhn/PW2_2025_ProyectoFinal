@@ -10,5 +10,6 @@ public interface EstudiantesInteractor {
 
         // tienen que añadirlo
         void consultarEstudiantePorId(int id);
+        void consultarEstudiantePornumero_cuenta(int numero_cuenta);
 
 }

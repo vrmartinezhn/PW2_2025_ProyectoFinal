@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+    <h:head>
+        <title>Profesores</title>
+    </h:head>
+    <h:body>
+        <div class="card crud-demo">
+            <h:form id="form">
+                <p:growl id="messages" showDetail="true" />
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Nuevo Profesor" icon="pi pi-plus" actionListener="#{ProfesoresBean.openNew}"
+                                         update=":dialogs:manage-professor-content" oncomplete="PF('manageProfessorDialog').show()"
+                                         styleClass="ui-button-success" style="margin-right: .5rem">
+                            <p:resetInput target=":dialogs:manage-professor-content" />
+                        </p:commandButton>
+                        <p:commandButton id="delete-button" value="#{ProfesoresBean.deleteButtonMessage}"
+                                         icon="pi pi-trash" actionListener="#{ProfesoresBean.eliminarProfesores}"
+                                         styleClass="ui-button-danger" disabled="#{!ProfesoresBean.hasProfesorSeleccionado()}" update="@this">
+                            <p:confirm header="Confirmación" message="Eliminar los profesores seleccionados?"
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-profesores" widgetVar="dtProfesores" var="profesor" value="#{ProfesoresBean.profesores}"
+                             reflow="true" styleClass="professor-table" selectionMode="multiple" selection="#{ProfesoresBean.profesoresSeleccionados}"
+                             rowKey="#{profesor.id}" paginator="true" rows="10" selectionRowMode="add" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <div class="professor-table-header" style="text-align: right;">
+                            <span style="font-weight: bold"> </span>
+                            <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtProfesores').filter())" placeholder="Buscar profesor" />
+                    </span>
+                        </div>
+                    </f:facet>
+
+                    <p:ajax event="rowSelect" update=":form:delete-button" />
+                    <p:ajax event="rowUnselect" update=":form:delete-button" />
+                    <p:ajax event="rowSelectCheckbox" update=":form:delete-button" />
+                    <p:ajax event="rowUnselectCheckbox" update=":form:delete-button" />
+                    <p:ajax event="toggleSelect" update=":form:delete-button" />
+
+                    <p:column selectionBox="true" exportable="false"></p:column>
+
+                    <p:column headerText="Usuario" sortBy="#{profesor.usuario}" filterBy="#{profesor.usuario}">
+                        <h:outputText value="#{profesor.usuario}" />
+                    </p:column>
+                    <p:column headerText="Nombre" sortBy="#{profesor.nombre}" filterBy="#{profesor.nombre}">
+                        <h:outputText value="#{profesor.nombre}" />
+                    </p:column>
+                    <p:column headerText="Apellido" sortBy="#{profesor.apellido}" filterBy="#{profesor.apellido}">
+                        <h:outputText value="#{profesor.apellido}" />
+                    </p:column>
+                    <p:column headerText="Genero" sortBy="#{profesor.genero}" filterBy="#{profesor.genero}">
+                        <h:outputText value="#{profesor.genero}" />
+                    </p:column>
+                    <p:column headerText="Correo" sortBy="#{profesor.correo}" filterBy="#{profesor.correo}">
+                        <h:outputText value="#{profesor.correo}" />
+                    </p:column>
+                    <p:column headerText="Estatus" sortBy="#{profesor.estatus}" filterBy="#{profesor.estatus}">
+                        <h:outputText value="#{profesor.estatus}" />
+                    </p:column>
+
+                    <p:column exportable="false" ariaHeaderText="Actions">
+                        <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-professor-content"
+                                         oncomplete="PF('manageProfessorDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{profesor}" target="#{ProfesoresBean.profesorSeleccionado}" />
+                            <p:resetInput target=":dialogs:manage-professor-content" />
+                        </p:commandButton>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this"
+                                         oncomplete="PF('deleteProductDialog').show()">
+                            <f:setPropertyActionListener value="#{profesor}" target="#{ProfesoresBean.profesorSeleccionado}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+            <h:form id="dialogs">
+                <p:dialog header="Crear Profesor" showEffect="fade" modal="true" widgetVar="manageProfessorDialog"
+                          responsive="true">
+                    <p:outputPanel id="manage-professor-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty ProfesoresBean.profesorSeleccionado}">
+                            <p:graphicImage name="images/profesor/#{ProfesoresBean.profesorSeleccionado.genero}" library="demo"
+                                            styleClass="profesor-genero" rendered="#{not empty ProfesoresBean.profesorSeleccionado.genero}" />
+                            <div class="field">
+                                <p:outputLabel for="usuario">Usuario</p:outputLabel>
+                                <p:inputText id="usuario" value="#{ProfesoresBean.profesorSeleccionado.usuario}" required="true" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="contra">Contraseña</p:outputLabel>
+                                <p:inputText id="contra" value="#{ProfesoresBean.profesorSeleccionado.contra}" required="true" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                                <p:inputText id="nombre" value="#{ProfesoresBean.profesorSeleccionado.nombre}" required="true" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="apellido">Apellido</p:outputLabel>
+                                <p:inputText id="apellido" value="#{ProfesoresBean.profesorSeleccionado.apellido}" required="true" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="genero">Genero</p:outputLabel>
+                                <p:selectOneRadio id="genero" value="#{ProfesoresBean.profesorSeleccionado.genero}"
+                                                  layout="responsive" columns="2">
+                                    <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                    <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                                </p:selectOneRadio>
+                            </div>
+
+                            <div class="field">
+                                <p:outputLabel for="correo">Correo</p:outputLabel>
+                                <p:inputText id="correo" value="#{ProfesoresBean.profesorSeleccionado.correo}" required="true" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="estatus">Estatus</p:outputLabel>
+                                <p:selectOneRadio id="estatus" value="#{ProfesoresBean.profesorSeleccionado.estatus}"
+                                                  layout="responsive" columns="2">
+                                    <f:selectItem itemLabel="Activo" itemValue="1"/>
+                                    <f:selectItem itemLabel="Inactivo" itemValue="0"/>
+                                </p:selectOneRadio>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" icon="pi pi-check" actionListener="#{ProfesoresBean.guardarProfesor()}"
+                                         update="manage-professor-content" process="manage-professor-content @this" />
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProfessorDialog').hide()"
+                                         class="ui-button-secondary" type="button" />
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                                 message="Eliminar el profesor?" header="Confirm" severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check" actionListener="#{ProfesoresBean.eliminarProfesor()}"
+                                     process="@this" update=":form:delete-button"
+                                     oncomplete="PF('deleteProductDialog').hide()" />
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('deleteProductDialog').hide()" />
+                </p:confirmDialog>
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times" />
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</f:view>
+</html>

@@ -51,7 +51,7 @@ public class LoginBean implements Serializable{
         if ("admin".equals(usuario) && "1234".equals(contra)) {
             evitarCache();
             autenticadoPortalCatedraticos = true;
-            return "template.xhtml?faces-redirect=true";
+            return "profesores.xhtml?faces-redirect=true";
         } else {
             showError("Error de autenticación");
             return "";
@@ -62,7 +62,7 @@ public class LoginBean implements Serializable{
         if ("123456789".equals(cuenta)) {
             evitarCache();
             autenticadoPortalPadres = true;
-            return "portalPadres.xhtml?faces-redirect=true";
+            return "portal-padres.xhtml?faces-redirect=true";
         } else {
             showError("Error de autenticación");
             return "";

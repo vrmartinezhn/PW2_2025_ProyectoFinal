@@ -5,6 +5,8 @@ import pw2.gestionacademica.pw2_2025_proyectofinal.model.Materia;
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.MateriasResponse;
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.Profesor;
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.ProfesoresResponse;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.Calificacion;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.CalificacionesResponse;
 import retrofit2.Call;
 import retrofit2.Response;
 

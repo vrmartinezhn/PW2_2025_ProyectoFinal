@@ -42,10 +42,9 @@
 
 
                 <p:menuitem >
-                    <!--<h:form>
+                    <h:form>
                         <p:commandButton action="#{LoginBean.logout()}" value="Salir"/>
-                    </h:form>-->
-
+                    </h:form>
                 </p:menuitem>
 
             </p:tabMenu>
@@ -53,32 +52,7 @@
 
         <!-- TRABAJAR A PARTIR DE AQUIIIIIIIII -->
 
-
-
-        <!-- LIMITEEEEEEE NO SOBREPASAR-->
-    </div>
-
-</h:body>
-</html>
-
-
-
-
-
-
- <!--       <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
-    <h:head>
-        <title>Profesores</title>
-    </h:head>
-    <h:body>
-        <div class="card crud-demo">
+        <div class="card crud-demo" style="padding: 1rem">
             <h:form id="form">
                 <p:growl id="messages" showDetail="true" />
 
@@ -90,8 +64,9 @@
                             <p:resetInput target=":dialogs:manage-professor-content" />
                         </p:commandButton>
                         <p:commandButton id="delete-button" value="#{ProfesoresBean.deleteButtonMessage}"
-                                         icon="pi pi-trash" actionListener="#{ProfesoresBean.eliminarProfesores}"
-                                         styleClass="ui-button-danger" disabled="#{!ProfesoresBean.hasProfesorSeleccionado()}" update="@this">
+                                         icon="pi pi-trash" actionListener="#{ProfesoresBean.eliminarProfesores()}"
+                                         styleClass="ui-button-danger" disabled="#{!ProfesoresBean.hasProfesorSeleccionado()}" update=":form:dt-profesores :form:delete-button"
+                                         oncomplete="PF('dtProfesores').clearFilters()" >
                             <p:confirm header="Confirmación" message="Eliminar los profesores seleccionados?"
                                        icon="pi pi-exclamation-triangle" />
                         </p:commandButton>
@@ -146,7 +121,7 @@
                         </p:commandButton>
                         <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
                                          process="@this"
-                                         oncomplete="PF('deleteProductDialog').show()">
+                                         oncomplete="PF('deleteProfessorDialog').show()">
                             <f:setPropertyActionListener value="#{profesor}" target="#{ProfesoresBean.profesorSeleccionado}" />
                         </p:commandButton>
                     </p:column>
@@ -209,13 +184,13 @@
                     </f:facet>
                 </p:dialog>
 
-                <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                <p:confirmDialog widgetVar="deleteProfessorDialog" showEffect="fade" width="300"
                                  message="Eliminar el profesor?" header="Confirm" severity="warn">
                     <p:commandButton value="Si" icon="pi pi-check" actionListener="#{ProfesoresBean.eliminarProfesor()}"
-                                     process="@this" update=":form:delete-button"
-                                     oncomplete="PF('deleteProductDialog').hide()" />
+                                     process="@this" update=":form:delete-button :form:dt-profesores"
+                                     oncomplete="PF('deleteProfessorDialog').hide()" />
                     <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                                     onclick="PF('deleteProductDialog').hide()" />
+                                     onclick="PF('deleteProfessorDialog').hide()" />
                 </p:confirmDialog>
 
                 <p:confirmDialog global="true" showEffect="fade" width="300">
@@ -225,7 +200,9 @@
                 </p:confirmDialog>
             </h:form>
         </div>
-    </h:body>
-</f:view>
+
+        <!-- LIMITEEEEEEE NO SOBREPASAR-->
+    </div>
+
+</h:body>
 </html>
--->

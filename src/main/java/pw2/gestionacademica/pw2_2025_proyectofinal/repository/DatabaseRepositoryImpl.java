@@ -32,8 +32,8 @@ public class DatabaseRepositoryImpl {
 
     public ProfesoresResponse consultarProfesores() throws IOException {
         Call<ProfesoresResponse> call = client.getInstance().listProfesores();
-        Response<ProfesoresResponse> response = call.execute();//EJECUTA EL LLAMADO A LA BASE DE DATOS
-        if(response.isSuccessful()){//CODIGO (STATUS CODE HTTP 200)
+        Response<ProfesoresResponse> response = call.execute();
+        if(response.isSuccessful()){
             return response.body();
         }else{
             return null;
@@ -42,21 +42,24 @@ public class DatabaseRepositoryImpl {
 
     public boolean crearProfesores(Profesor nueva) throws IOException {
         Call<ResponseBody> call = client.getInstance().createProfesor(nueva);
-        Response<ResponseBody> response = call.execute();//EJECUTA EL LLAMADO A LA BASE DE DATOS
+        Response<ResponseBody> response = call.execute();
         return response.isSuccessful();
     }
 
     public boolean actualizarProfesores(Profesor existente) throws IOException {
         Call<ResponseBody> call = client.getInstance().updateProfesor(existente);
-        Response<ResponseBody> response = call.execute();//EJECUTA EL LLAMADO A LA BASE DE DATOS
+        Response<ResponseBody> response = call.execute();
         return response.isSuccessful();
     }
 
     public boolean eliminarProfesores(int id) throws IOException {
         Call<ResponseBody> call = client.getInstance().deleteProfesor(id);
-        Response<ResponseBody> response = call.execute();//EJECUTA EL LLAMADO A LA BASE DE DATOS
+        Response<ResponseBody> response = call.execute();
         return response.isSuccessful();
     }
+
+
+    //======================Materias===================================
 
     public MateriasResponse consultarMaterias() throws IOException {
         Call<MateriasResponse> call = client.getInstance().listMaterias();
@@ -82,6 +85,36 @@ public class DatabaseRepositoryImpl {
 
     public boolean eliminarMaterias(int id) throws IOException {
         Call<ResponseBody> call = client.getInstance().deleteMateria(id);
+        Response<ResponseBody> response = call.execute();
+        return response.isSuccessful();
+    }
+
+
+    //=======================Calificaciones========================
+    public CalificacionesResponse consultarCalificaciones() throws IOException {
+        Call<CalificacionesResponse> call = client.getInstance().listCalificaciones();
+        Response<CalificacionesResponse> response = call.execute();
+        if(response.isSuccessful()){
+            return response.body();
+        }else{
+            return null;
+        }
+    }
+
+    public boolean crearCalificaciones(Calificacion calificacion) throws IOException {
+        Call<ResponseBody> call = client.getInstance().createCalificacion(calificacion);
+        Response<ResponseBody> response = call.execute();
+        return response.isSuccessful();
+    }
+
+    public boolean actualizarCalificaciones(Calificacion existente) throws IOException {
+        Call<ResponseBody> call = client.getInstance().updateCalificacion(existente);
+        Response<ResponseBody> response = call.execute();
+        return response.isSuccessful();
+    }
+
+    public boolean eliminarCalificaciones(int id) throws IOException {
+        Call<ResponseBody> call = client.getInstance().deleteCalificacion(id);
         Response<ResponseBody> response = call.execute();
         return response.isSuccessful();
     }

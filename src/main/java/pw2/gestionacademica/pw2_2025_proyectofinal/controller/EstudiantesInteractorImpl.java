@@ -106,5 +106,19 @@ public class EstudiantesInteractorImpl implements EstudiantesInteractor {
         }
     }
 
+    public void consultarEstudiantePornumero_cuenta(int numero_cuenta) {
+        try {
+            EstudiantesResponse response = this.repositorio.consultarEstudiantePornumero_cuenta(numero_cuenta);
+            if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
+                this.vista.mostrarMensajeError("No se encontró el estudiante con este numero de cuenta " + numero_cuenta);
+            } else {
+                this.vista.mostrarEstudiantesDataTable(response.getItems());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.vista.mostrarMensajeError("Error al consultar estudiante por numero de cuenta.");
+        }
+    }
+
 
 }

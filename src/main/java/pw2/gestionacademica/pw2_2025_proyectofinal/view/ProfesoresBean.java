@@ -1,5 +1,6 @@
 package pw2.gestionacademica.pw2_2025_proyectofinal.view;
 
+import jakarta.enterprise.context.SessionScoped;
 import org.primefaces.PrimeFaces;
 import pw2.gestionacademica.pw2_2025_proyectofinal.controller.ProfesoresInteractor;
 import pw2.gestionacademica.pw2_2025_proyectofinal.controller.ProfesoresInteractorImpl;
@@ -15,7 +16,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
 @Named("ProfesoresBean")
-@ViewScoped
+@SessionScoped
 public class ProfesoresBean implements Serializable, ProfesoresViewModel {
     private List<Profesor> profesores;
     private List<Profesor> profesoresSeleccionados;

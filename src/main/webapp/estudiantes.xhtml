@@ -76,6 +76,9 @@
                         <p:inputText value="#{EstudiantesBean.idBusqueda}" placeholder="Buscar por ID" />
                         <p:commandButton value="Buscar" actionListener="#{EstudiantesBean.buscarEstudiantePorId()}" update=":form:dt-estudiantes :form:messages" />
 
+                         <p:inputText value="#{EstudiantesBean.cuentaBusqueda}" placeholder="Buscar por numero de cuenta" />
+                        <p:commandButton value="Buscar" actionListener="#{EstudiantesBean.buscarEstudiantePornumero_cuenta()}" update=":form:dt-estudiantes :form:messages" />
+
                         <!--Asta aqui-->
                     </p:toolbarGroup>
                 </p:toolbar>

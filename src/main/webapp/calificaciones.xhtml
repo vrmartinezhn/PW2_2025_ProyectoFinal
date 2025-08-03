@@ -2,10 +2,219 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:outputLabel value="Hello, world"/>
-</f:view>
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="primefaces">
+
+<h:head>
+   <title>Calificaciones</title>
+   <link rel="stylesheet" href="css/style.css"/>
+</h:head>
+
+<h:body>
+
+   <f:metadata>
+      <f:viewAction action="#{LoginBean.evitarCache()}" />
+      <f:viewAction action="#{LoginBean.verificarSesionPortalCatedraticos()}" />
+   </f:metadata>
+
+   <div class="navbar ">
+      <h1><i class="pi pi-book" style="font-size: 1.7rem; margin-right: 0.5rem"></i>Studify</h1>
+   </div>
+
+
+   <div class="main-container template">
+
+      <div class="card">
+         <p:tabMenu activeIndex="3" style="width:15rem" orientation="left">
+            <p:menuitem value="Profesores"  icon="pi pi-address-book" outcome="profesores.xhtml">
+               <f:param name="i" value="0"/>
+            </p:menuitem>
+            <p:menuitem value="Materias"  icon="pi pi-book" outcome="materias.xhtml">
+               <f:param name="i" value="1"/>
+            </p:menuitem>
+            <p:menuitem value="Estudiantes"  icon="pi pi-graduation-cap" outcome="estudiantes.xhtml">
+               <f:param name="i" value="2"/>
+            </p:menuitem>
+            <p:menuitem value="Calificaciones"  icon="pi pi-chart-bar" outcome="calificaciones.xhtml">
+               <f:param name="i" value="3"/>
+            </p:menuitem>
+
+
+            <p:menuitem >
+               <h:form>
+                  <p:commandButton action="#{LoginBean.logout()}" value="Salir"/>
+               </h:form>
+
+            </p:menuitem>
+
+         </p:tabMenu>
+      </div>
+
+      <!-- TRABAJAR A PARTIR DE AQUIIIIIIIII -->
+
+        <div class="card crud-demo" style="padding: 1rem; background: var(--surface-100); overflow-y: scroll">
+         <h:form id="form">
+            <p:growl id="messages" showDetail="true" />
+
+            <p:toolbar>
+               <p:toolbarGroup>
+                  <p:commandButton value="Crear" icon="pi pi-plus" actionListener="#{CalificacionesBean.openNew}"
+                                   update=":dialogs:manage-calificacion-content" oncomplete="PF('manageCalificacionDialog').show()"
+                                   styleClass="ui-button-success" style="margin-right: .5rem">
+                     <p:resetInput target=":dialogs:manage-calificacion-content" />
+                  </p:commandButton>
+                  <p:commandButton id="delete-button" value="#{CalificacionesBean.deleteButtonMessage}"
+                                   icon="pi pi-trash" actionListener="#{CalificacionesBean.eliminarCalificaciones()}"
+                                   styleClass="ui-button-danger" disabled="#{!CalificacionesBean.hasSelectedCalificacion()}" update="@this">
+                     <p:confirm header="Confirmación" message="¿Deseas eliminar las calificaciones seleccionadas?"
+                                icon="pi pi-exclamation-triangle" />
+                  </p:commandButton>
+               </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable id="dt-calificaciones" widgetVar="dtCalificaciones" var="calificacion" value="#{CalificacionesBean.calificaciones}"
+                         reflow="true" styleClass="products-table" selectionMode="multiple" selection="#{CalificacionesBean.selectedCalificaciones}"
+                         rowKey="#{calificacion.id}" paginator="true" rows="10" selectionRowMode="add" paginatorPosition="bottom">
+               <f:facet name="header">
+                  <div class="products-table-header">
+                     <span style="font-weight: bold">Calificación </span>
+                     <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtCalificaciones').filter())" placeholder="Buscar" />
+                    </span>
+                  </div>
+               </f:facet>
+
+               <p:ajax event="rowSelect" update=":form:delete-button" />
+               <p:ajax event="rowUnselect" update=":form:delete-button" />
+               <p:ajax event="rowSelectCheckbox" update=":form:delete-button" />
+               <p:ajax event="rowUnselectCheckbox" update=":form:delete-button" />
+               <p:ajax event="toggleSelect" update=":form:delete-button" />
+
+               <p:column selectionBox="true" exportable="false"></p:column>
+
+               <p:column headerText="Año" sortBy="#{calificacion.anio}" filterBy="#{calificacion.anio}" filterMatchMode="contains">
+                  <h:outputText value="#{calificacion.anio}" />
+               </p:column>
+               <p:column headerText="Periodo" sortBy="#{calificacion.periodo}" filterBy="#{calificacion.periodo}" filterMatchMode="contains">
+                  <h:outputText value="#{calificacion.periodo}" />
+               </p:column>
+               <p:column headerText="Estudiante" sortBy="#{calificacion.id_estudiante}" filterBy="#{calificacion.id_estudiante}" filterMatchMode="contains">
+                  <h:outputText value="#{calificacion.id_estudiante}" />
+               </p:column>
+               <p:column headerText="Profesor" sortBy="#{calificacion.id_profesor}" filterBy="#{calificacion.id_profesor}" filterMatchMode="contains">
+                  <h:outputText value="#{calificacion.id_profesor}" />
+               </p:column>
+               <p:column headerText="Materia" sortBy="#{calificacion.id_materia}" filterBy="#{calificacion.id_materia}" filterMatchMode="contains">
+                  <h:outputText value="#{calificacion.id_materia}" />
+               </p:column>
+               <p:column headerText="1P" sortBy="#{calificacion.primer_parcial}" filterBy="#{calificacion.primer_parcial}" filterMatchMode="contains">
+                  <h:outputText value="#{calificacion.primer_parcial}" style="font-weight: 700"/>
+               </p:column>
+               <p:column headerText="2P" sortBy="#{calificacion.segundo_parcial}" filterBy="#{calificacion.segundo_parcial}" filterMatchMode="contains">
+                  <h:outputText value="#{calificacion.segundo_parcial}" style="font-weight: 700"/>
+               </p:column>
+               <p:column headerText="3P" sortBy="#{calificacion.tercer_parcial}" filterBy="#{calificacion.tercer_parcial}" filterMatchMode="contains">
+                  <h:outputText value="#{calificacion.tercer_parcial}" style="font-weight: 700"/>
+               </p:column>
+               <p:column headerText="Observación" sortBy="#{calificacion.observacion}" filterBy="#{calificacion.observacion}" filterMatchMode="contains">
+                  <h:outputText value="#{calificacion.observacion}" style="font-weight: 700"/>
+               </p:column>
+
+
+               <p:column exportable="false" ariaHeaderText="Actions">
+                  <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-calificacion-content"
+                                   oncomplete="PF('manageCalificacionDialog').show()"
+                                   styleClass="edit-button rounded-button ui-button-success" process="@this">
+                     <f:setPropertyActionListener value="#{calificacion}" target="#{CalificacionesBean.selectedCalificacion}" />
+                     <p:resetInput target=":dialogs:manage-calificacion-content" />
+                  </p:commandButton>
+                  <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                   process="@this"
+                                   oncomplete="PF('deleteCalificacionDialog').show()">
+                     <f:setPropertyActionListener value="#{calificacion}" target="#{CalificacionesBean.selectedCalificacion}" />
+                  </p:commandButton>
+               </p:column>
+
+            </p:dataTable>
+         </h:form>
+
+         <h:form id="dialogs" style="width: 80%;">
+            <p:dialog header="Formulario de Calificación" showEffect="fade" modal="true" widgetVar="manageCalificacionDialog"
+                      responsive="true">
+               <p:outputPanel id="manage-calificacion-content" class="ui-fluid">
+                  <p:outputPanel rendered="#{not empty CalificacionesBean.selectedCalificacion}">
+                     <p:graphicImage name="images/product/#{CalificacionesBean.selectedCalificacion.primer_parcial}" library="demo"
+                                     styleClass="product-image" rendered="#{not empty CalificacionesBean.selectedCalificacion.primer_parcial}" />
+
+                     <div class="field">
+                        <p:outputLabel for="anio">Año</p:outputLabel>
+                        <p:inputText id="anio" value="#{CalificacionesBean.selectedCalificacion.anio}" required="true" />
+                     </div>
+                     <div class="field">
+                        <p:outputLabel for="periodo">Periódo</p:outputLabel>
+                        <p:inputText id="periodo" value="#{CalificacionesBean.selectedCalificacion.periodo}" required="true" />
+                     </div>
+                     <div class="field">
+                        <p:outputLabel for="estudiante">Estudiante</p:outputLabel>
+                        <p:inputText id="estudiante" value="#{CalificacionesBean.selectedCalificacion.id_estudiante}" required="true" />
+                     </div>
+                     <div class="field">
+                        <p:outputLabel for="profesor">Profesor</p:outputLabel>
+                        <p:inputText id="profesor" value="#{CalificacionesBean.selectedCalificacion.id_profesor}" required="true" />
+                     </div>
+                     <div class="field">
+                        <p:outputLabel for="materia">Materia</p:outputLabel>
+                        <p:inputText id="materia" value="#{CalificacionesBean.selectedCalificacion.id_materia}" />
+                     </div>
+                     <div class="field">
+                        <p:outputLabel for="parcial1">1P</p:outputLabel>
+                        <p:inputText id="parcial1" value="#{CalificacionesBean.selectedCalificacion.primer_parcial}" />
+                     </div>
+                     <div class="field">
+                        <p:outputLabel for="parcial2">2P</p:outputLabel>
+                        <p:inputText id="parcial2" value="#{CalificacionesBean.selectedCalificacion.segundo_parcial}" />
+                     </div>
+                     <div class="field">
+                        <p:outputLabel for="parcial3">3P</p:outputLabel>
+                        <p:inputText id="parcial3" value="#{CalificacionesBean.selectedCalificacion.tercer_parcial}" />
+                     </div>
+                     <div class="field">
+                        <p:outputLabel for="observacion">Observación</p:outputLabel>
+                        <p:inputTextarea id="observacion" value="#{CalificacionesBean.selectedCalificacion.observacion}" />
+                     </div>
+
+                  </p:outputPanel>
+               </p:outputPanel>
+
+               <f:facet name="footer">
+                  <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{CalificacionesBean.guardarCalificacion()}"
+                                   update="manage-calificacion-content :form:dt-calificaciones" process="manage-calificacion-content @this"
+                                   oncomplete="PF('manageCalificacionDialog').hide()" />
+                  <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageCalificacionDialog').hide()"
+                                   class="ui-button-secondary" type="button" />
+               </f:facet>
+            </p:dialog>
+
+            <p:confirmDialog widgetVar="deleteCalificacionDialog" showEffect="fade" width="300"
+                             message="¿Eliminar la película?" header="Confirmar" severity="warn">
+               <p:commandButton value="Si" icon="pi pi-check" actionListener="#{CalificacionesBean.eliminarCalificacion()}"
+                                process="@this" update=":form:delete-button :form:dt-calificaciones"
+                                oncomplete="PF('deleteCalificacionDialog').hide()" />
+               <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                onclick="PF('deleteCalificacionDialog').hide()" />
+            </p:confirmDialog>
+
+            <p:confirmDialog global="true" showEffect="fade" width="300">
+               <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+               <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                icon="pi pi-times" />
+            </p:confirmDialog>
+         </h:form>
+      </div>
+
+      <!-- LIMITEEEEEEE NO SOBREPASAR-->
+   </div>
+
+</h:body>
 </html>

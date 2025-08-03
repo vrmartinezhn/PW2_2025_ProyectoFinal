@@ -37,6 +37,8 @@ public interface DatabaseRepository {
     @DELETE("/pls/apex/uthworkspace/appacademica/profesores")
     Call<ResponseBody> deleteProfesor(@Query("id") int id);
 
+    
+    //==================Materias=========================
     @Headers({
             "Accept: application/vnd.github.v3.full+json", "User-Agent: Retrofit-Sample-App"
     })
@@ -60,5 +62,36 @@ public interface DatabaseRepository {
     })
     @DELETE("/pls/apex/uthworkspace/appacademica/materias")
     Call<ResponseBody> deleteMateria(@Query("id") int id);
+
+    
+    //================Calificaciones================================
+    @Headers({
+        "Accept: application/vnd.github.v3.full+json",
+        "User-Agent: Retrofit-Sample-App"
+    })
+    @GET("/pls/apex/uthworkspace/appacademica/calificaciones")
+    Call<CalificacionesResponse> listCalificaciones();
+
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json",
+            "User-Agent: Retrofit-Sample-App"
+    })
+    @POST("/pls/apex/uthworkspace/appacademica/calificaciones")
+    Call<ResponseBody> createCalificacion(@Body Calificacion calificacion);
+
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json",
+            "User-Agent: Retrofit-Sample-App"
+    })
+    @PUT("/pls/apex/uthworkspace/appacademica/calificaciones")
+    Call<ResponseBody> updateCalificacion(@Body Calificacion calificacion);
+
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json",
+            "User-Agent: Retrofit-Sample-App"
+    })
+    @DELETE("/pls/apex/uthworkspace/appacademica/calificaciones")
+    Call<ResponseBody> deleteCalificacion(@Query("id") int id);
+    
 }
 

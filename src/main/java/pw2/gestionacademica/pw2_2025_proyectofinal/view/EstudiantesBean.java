@@ -22,6 +22,7 @@ public class EstudiantesBean implements Serializable, EstudiantesViewModel {
 
     // tienen que añadirlo
     private int idBusqueda;
+    private int cuentaBusqueda;
 
 
     public EstudiantesBean() {
@@ -40,6 +41,13 @@ public class EstudiantesBean implements Serializable, EstudiantesViewModel {
         }
     }
 
+    public void buscarEstudiantePornumero_cuenta() {
+        if (cuentaBusqueda > 0) {
+            controller.consultarEstudiantePornumero_cuenta(cuentaBusqueda);
+        } else {
+            controller.consultarEstudiantes();
+        }
+    }
 
     public void openNew() {
         this.selectedEstudiante = new Estudiante();
@@ -110,6 +118,14 @@ public class EstudiantesBean implements Serializable, EstudiantesViewModel {
     public int getIdBusqueda() {return idBusqueda;}
 
     public void setIdBusqueda(int idBusqueda) {this.idBusqueda = idBusqueda;}
+
+    public int getCuentaBusqueda() {
+        return cuentaBusqueda;
+    }
+
+    public void setCuentaBusqueda(int cuentaBusqueda) {
+        this.cuentaBusqueda = cuentaBusqueda;
+    }
 
 
     @Override

@@ -7,6 +7,8 @@ import pw2.gestionacademica.pw2_2025_proyectofinal.model.Profesor;
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.ProfesoresResponse;
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.Calificacion;
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.CalificacionesResponse;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.Estudiante;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.EstudiantesResponse;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -119,6 +121,45 @@ public class DatabaseRepositoryImpl {
         Call<ResponseBody> call = client.getInstance().deleteCalificacion(id);
         Response<ResponseBody> response = call.execute();
         return response.isSuccessful();
+    }
+
+    //==========================================================================Estudinates
+    public EstudiantesResponse consultarEstudiantes() throws IOException {
+        Call<EstudiantesResponse> call = client.getInstance().listEstudiante();
+        Response<EstudiantesResponse> response = call.execute();
+        if(response.isSuccessful()){
+            return response.body();
+        }else{
+            return null;
+        }
+    }
+    public boolean crearEstudiantes(Estudiante nuevo) throws IOException {
+        Call<ResponseBody> call = client.getInstance().createEstudiante(nuevo);
+        Response<ResponseBody> response = call.execute();
+        return response.isSuccessful();
+    }
+
+    public boolean actualizarEstudiantes(Estudiante existente) throws IOException {
+        Call<ResponseBody> call = client.getInstance().updateMEstudiante(existente);
+        Response<ResponseBody> response = call.execute();
+        return response.isSuccessful();
+    }
+
+    public boolean eliminarEstudiantes(int id) throws IOException {
+        Call<ResponseBody> call = client.getInstance().deleteEstudiante(id);
+        Response<ResponseBody> response = call.execute();
+        return response.isSuccessful();
+    }
+
+    // tienen que añadirlo
+    public EstudiantesResponse consultarEstudiantePorId(int id) throws IOException {
+        Call<EstudiantesResponse> call = client.getInstance().getEstudiantePorId(id);
+        Response<EstudiantesResponse> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
     }
 }
 

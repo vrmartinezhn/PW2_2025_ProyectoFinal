@@ -1,6 +1,8 @@
 package pw2.gestionacademica.pw2_2025_proyectofinal.repository;
 
 import okhttp3.ResponseBody;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.Materia;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.MateriasResponse;
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.Profesor;
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.ProfesoresResponse;
 import retrofit2.Call;
@@ -34,5 +36,29 @@ public interface DatabaseRepository {
     })
     @DELETE("/pls/apex/uthworkspace/appacademica/profesores")
     Call<ResponseBody> deleteProfesor(@Query("id") int id);
+
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json", "User-Agent: Retrofit-Sample-App"
+    })
+    @GET("/pls/apex/uthworkspace/appacademica/materias")
+    Call<MateriasResponse> listMaterias();
+
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json", "User-Agent: Retrofit-Sample-App"
+    })
+    @POST("/pls/apex/uthworkspace/appacademica/materias")
+    Call<ResponseBody> createMateria(@Body Materia materia);
+
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json", "User-Agent: Retrofit-Sample-App"
+    })
+    @PUT("/pls/apex/uthworkspace/appacademica/materias")
+    Call<ResponseBody> updateMateria(@Body Materia materia);
+
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json", "User-Agent: Retrofit-Sample-App"
+    })
+    @DELETE("/pls/apex/uthworkspace/appacademica/materias")
+    Call<ResponseBody> deleteMateria(@Query("id") int id);
 }
 

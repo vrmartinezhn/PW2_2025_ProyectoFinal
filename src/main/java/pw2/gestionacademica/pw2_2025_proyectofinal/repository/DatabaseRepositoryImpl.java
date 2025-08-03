@@ -161,5 +161,17 @@ public class DatabaseRepositoryImpl {
             return null;
         }
     }
+
+
+     public EstudiantesResponse consultarEstudiantePornumero_cuenta(int numero_cuenta) throws IOException {
+        Call<EstudiantesResponse> call = client.getInstance().getEstudiantePornumero_cuenta(numero_cuenta);
+        Response<EstudiantesResponse> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
+
 }
 

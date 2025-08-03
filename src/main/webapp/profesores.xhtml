@@ -86,7 +86,7 @@
             </h:form>
 
             <h:form id="dialogs">
-                <p:dialog header="Crear Profesor" showEffect="fade" modal="true" widgetVar="manageProfessorDialog"
+                <p:dialog header="Formulario de Profesor" showEffect="fade" modal="true" widgetVar="manageProfessorDialog"
                           responsive="true">
                     <p:outputPanel id="manage-professor-content" class="ui-fluid">
                         <p:outputPanel rendered="#{not empty ProfesoresBean.profesorSeleccionado}">
@@ -125,8 +125,8 @@
                                 <p:outputLabel for="estatus">Estatus</p:outputLabel>
                                 <p:selectOneRadio id="estatus" value="#{ProfesoresBean.profesorSeleccionado.estatus}"
                                                   layout="responsive" columns="2">
-                                    <f:selectItem itemLabel="Activo" itemValue="1"/>
-                                    <f:selectItem itemLabel="Inactivo" itemValue="0"/>
+                                    <f:selectItem itemLabel="Activo" itemValue="Activo"/>
+                                    <f:selectItem itemLabel="Inactivo" itemValue="Inactivo"/>
                                 </p:selectOneRadio>
                             </div>
                         </p:outputPanel>
@@ -134,7 +134,8 @@
 
                     <f:facet name="footer">
                         <p:commandButton value="Save" icon="pi pi-check" actionListener="#{ProfesoresBean.guardarProfesor()}"
-                                         update="manage-professor-content" process="manage-professor-content @this" />
+                                         update="manage-professor-content :form:dt-profesores" process="manage-professor-content @this"
+                                         oncomplete="PF('manageProfessorDialog').hide()" />
                         <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProfessorDialog').hide()"
                                          class="ui-button-secondary" type="button" />
                     </f:facet>

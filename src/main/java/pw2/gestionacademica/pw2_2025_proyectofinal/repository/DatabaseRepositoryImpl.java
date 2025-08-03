@@ -1,6 +1,8 @@
 package pw2.gestionacademica.pw2_2025_proyectofinal.repository;
 
 import okhttp3.ResponseBody;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.Materia;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.MateriasResponse;
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.Profesor;
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.ProfesoresResponse;
 import retrofit2.Call;
@@ -55,4 +57,33 @@ public class DatabaseRepositoryImpl {
         Response<ResponseBody> response = call.execute();//EJECUTA EL LLAMADO A LA BASE DE DATOS
         return response.isSuccessful();
     }
+
+    public MateriasResponse consultarMaterias() throws IOException {
+        Call<MateriasResponse> call = client.getInstance().listMaterias();
+        Response<MateriasResponse> response = call.execute();
+        if(response.isSuccessful()){
+            return response.body();
+        }else{
+            return null;
+        }
+    }
+
+    public boolean crearMaterias(Materia nueva) throws IOException {
+        Call<ResponseBody> call = client.getInstance().createMateria(nueva);
+        Response<ResponseBody> response = call.execute();
+        return response.isSuccessful();
+    }
+
+    public boolean actualizarMaterias(Materia existente) throws IOException {
+        Call<ResponseBody> call = client.getInstance().updateMateria(existente);
+        Response<ResponseBody> response = call.execute();
+        return response.isSuccessful();
+    }
+
+    public boolean eliminarMaterias(int id) throws IOException {
+        Call<ResponseBody> call = client.getInstance().deleteMateria(id);
+        Response<ResponseBody> response = call.execute();
+        return response.isSuccessful();
+    }
 }
+

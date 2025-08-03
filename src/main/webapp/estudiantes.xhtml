@@ -2,10 +2,212 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:outputLabel value="Hello, world"/>
-</f:view>
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="primefaces">
+
+<h:head>
+   <title>Estudiantes</title>
+   <link rel="stylesheet" href="css/style.css"/>
+</h:head>
+
+<h:body>
+
+   <f:metadata>
+      <f:viewAction action="#{LoginBean.evitarCache()}" />
+      <f:viewAction action="#{LoginBean.verificarSesionPortalCatedraticos()}" />
+   </f:metadata>
+
+   <div class="navbar ">
+      <h1><i class="pi pi-book" style="font-size: 1.7rem; margin-right: 0.5rem"></i>Studify</h1>
+   </div>
+
+
+   <div class="main-container template">
+
+      <div class="card">
+         <p:tabMenu activeIndex="2" style="width:15rem" orientation="left">
+            <p:menuitem value="Profesores"  icon="pi pi-address-book" outcome="profesores.xhtml">
+               <f:param name="i" value="0"/>
+            </p:menuitem>
+            <p:menuitem value="Materias"  icon="pi pi-book" outcome="materias.xhtml">
+               <f:param name="i" value="1"/>
+            </p:menuitem>
+            <p:menuitem value="Estudiantes"  icon="pi pi-graduation-cap" outcome="estudiantes.xhtml">
+               <f:param name="i" value="2"/>
+            </p:menuitem>
+            <p:menuitem value="Calificaciones"  icon="pi pi-chart-bar" outcome="calificaciones.xhtml">
+               <f:param name="i" value="3"/>
+            </p:menuitem>
+
+
+            <p:menuitem >
+               <h:form>
+                  <p:commandButton action="#{LoginBean.logout()}" value="Salir"/>
+               </h:form>
+
+            </p:menuitem>
+
+         </p:tabMenu>
+      </div>
+
+      <!-- TRABAJAR A PARTIR DE AQUIIIIIIIII -->
+<div class="card crud-demo" style="padding: 1rem; background: var(--surface-100); overflow-y: scroll">
+            <h:form id="form">
+                <p:growl id="messages" showDetail="true" />
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Crear" icon="pi pi-plus" actionListener="#{EstudiantesBean.openNew()}"
+                                         update=":dialogs:manage-estudiante-content" oncomplete="PF('manageEstudianteDialog').show()"
+                                         styleClass="ui-button-success" style="margin-right: .5rem">
+                            <p:resetInput target=":dialogs:manage-estudiante-content" />
+                        </p:commandButton>
+                        <p:commandButton id="delete-button" value="#{EstudiantesBean.deleteButtonMessage}"
+                                         icon="pi pi-trash" actionListener="#{EstudiantesBean.eliminarEstudiantes()}"
+                                         process="@this" update=":form:delete-button :form:dt-estudiantes"
+                                         styleClass="ui-button-danger" disabled="#{!EstudiantesBean.hasSelectedEstudiantes()}" updates=":form:dt-materias :form:delete-button"
+                                         oncomplete="PF('dtEstudiantes').clearFilters()">
+                            <p:confirm header="Confirmación" message="¿Deseas eliminar los estudiantes seleccionados?"
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+
+                        <!--tienen que añadirlo-->
+                        <p:inputText value="#{EstudiantesBean.idBusqueda}" placeholder="Buscar por ID" />
+                        <p:commandButton value="Buscar" actionListener="#{EstudiantesBean.buscarEstudiantePorId()}" update=":form:dt-estudiantes :form:messages" />
+
+                        <!--Asta aqui-->
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-estudiantes" widgetVar="dtEstudiantes" var="est" value="#{EstudiantesBean.estudiantes}"
+                             reflow="true" styleClass="products-table" selectionMode="multiple" selection="#{EstudiantesBean.selectedEstudiantes}"
+                             rowKey="#{est.id}" paginator="true" rows="10" selectionRowMode="add" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <div class="products-table-header">
+                            <span style="font-weight: bold">Estudiantes</span>
+                            <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtEstudiantes').filter())" placeholder="Buscar" />
+                    </span>
+                        </div>
+                    </f:facet>
+
+                    <p:ajax event="rowSelect" update=":form:delete-button" />
+                    <p:ajax event="rowUnselect" update=":form:delete-button" />
+                    <p:ajax event="rowSelectCheckbox" update=":form:delete-button" />
+                    <p:ajax event="rowUnselectCheckbox" update=":form:delete-button" />
+                    <p:ajax event="toggleSelect" update=":form:delete-button" />
+
+                    <p:column selectionBox="true" exportable="false"/>
+
+                    <p:column headerText="Numero Cuenta" sortBy="#{est.numero_cuenta}" filterBy="#{est.numero_cuenta}" filterMatchMode="contains">
+                        <h:outputText value="#{est.id}" />
+                    </p:column>
+
+
+                    <p:column headerText="Nombre" sortBy="#{est.nombre}" filterBy="#{est.nombre}" filterMatchMode="contains">
+                        <h:outputText value="#{est.nombre}" />
+                    </p:column>
+                    <p:column headerText="Apellido" sortBy="#{est.apellido}" filterBy="#{est.apellido}" filterMatchMode="contains">
+                        <h:outputText value="#{est.apellido}" />
+                    </p:column>
+                    <p:column headerText="Correo">
+                        <h:outputText value="#{est.correo}" />
+                    </p:column>
+
+                    <p:column headerText="Genero">
+                        <h:outputText value="#{est.genero}" />
+                    </p:column>
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{est.estatus}" />
+                    </p:column>
+
+                    <p:column exportable="false">
+                        <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-estudiante-content"
+                                         oncomplete="PF('manageEstudianteDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{est}" target="#{EstudiantesBean.selectedEstudiante}" />
+                            <p:resetInput target=":dialogs:manage-estudiante-content" />
+                        </p:commandButton>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this" oncomplete="PF('deleteEstudianteDialog').show()">
+                            <f:setPropertyActionListener value="#{est}" target="#{EstudiantesBean.selectedEstudiante}" />
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+            <h:form id="dialogs">
+                <p:dialog header="Detalles del Estudiante" showEffect="fade" modal="true" widgetVar="manageEstudianteDialog"
+                          responsive="true">
+                    <p:outputPanel id="manage-estudiante-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty EstudiantesBean.selectedEstudiante}">
+
+                            <div class="field">
+                                <p:outputLabel for="Numero_cuenta">Numero_cuenta</p:outputLabel>
+                                <p:inputText id="Numero_cuenta" value="#{EstudiantesBean.selectedEstudiante.numero_cuenta}" required="true" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                                <p:inputText id="nombre" value="#{EstudiantesBean.selectedEstudiante.nombre}" required="true" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="apellido">Apellido</p:outputLabel>
+                                <p:inputText id="apellido" value="#{EstudiantesBean.selectedEstudiante.apellido}" required="true" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="correo">Correo</p:outputLabel>
+                                <p:inputText id="correo" value="#{EstudiantesBean.selectedEstudiante.correo}" required="true" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="genero">Género</p:outputLabel>
+                                <p:selectOneRadio id="genero" value="#{EstudiantesBean.selectedEstudiante.genero}" layout="responsive" columns="2">
+                                    <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                    <f:selectItem itemLabel="Femenino" itemValue="F" />
+                                </p:selectOneRadio>
+                            </div>
+
+                            <div class="field">
+                                <p:outputLabel for="estado">Estado</p:outputLabel>
+                                <p:selectOneRadio id="estado" value="#{EstudiantesBean.selectedEstudiante.estatus}" layout="responsive" columns="2">
+                                    <f:selectItem itemLabel="Activo" itemValue="Activo" />
+                                    <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
+                                </p:selectOneRadio>
+                            </div>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{EstudiantesBean.guardarEstudiantes()}"
+                                         update="manage-estudiante-content :form:dt-estudiantes" process="manage-estudiante-content @this"
+                                         oncomplete="PF('manageEstudianteDialog').hide()" />
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageEstudianteDialog').hide()"
+                                         class="ui-button-secondary" type="button" />
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="deleteEstudianteDialog" showEffect="fade" width="300"
+                                 message="¿Eliminar el estudiante?" header="Confirmar" severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check" actionListener="#{EstudiantesBean.eliminarEstudiante()}"
+                                     process="@this" update=":form:delete-button :form:dt-estudiantes"
+                                     oncomplete="PF('deleteEstudianteDialog').hide()" />
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('deleteEstudianteDialog').hide()" />
+                </p:confirmDialog>
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times" />
+                </p:confirmDialog>
+            </h:form>
+        </div>
+
+
+      <!-- LIMITEEEEEEE NO SOBREPASAR-->
+   </div>
+
+</h:body>
 </html>

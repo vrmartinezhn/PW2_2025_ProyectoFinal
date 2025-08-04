@@ -91,4 +91,19 @@ public class MateriasInteractorImpl implements MateriasInteractor {
             error.printStackTrace();
         }
     }
+    
+    @Override
+    public void consultarMateriaPorId(int id) {
+        try {
+            MateriasResponse response = this.repositorio.consultarMateriaPorId(id);
+            if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
+                this.vista.mostrarMensajeError("No se encontró la materia con ID " + id);
+            } else {
+                this.vista.cargarMateria(response.getItems().getFirst());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.vista.mostrarMensajeError("Error al consultar materia por ID.");
+        }
+    }
 }

@@ -5,6 +5,8 @@ import pw2.gestionacademica.pw2_2025_proyectofinal.model.ProfesoresResponse;
 import pw2.gestionacademica.pw2_2025_proyectofinal.repository.DatabaseRepositoryImpl;
 import pw2.gestionacademica.pw2_2025_proyectofinal.view.ProfesoresViewModel;
 
+import java.util.List;
+
 public class ProfesoresInteractorImpl implements ProfesoresInteractor {
     private DatabaseRepositoryImpl repositorio;
     private ProfesoresViewModel vista;
@@ -126,5 +128,21 @@ public class ProfesoresInteractorImpl implements ProfesoresInteractor {
             this.vista.mostrarMensajeError("Error al consultar profesor por ID.");
         }
         return false;
+    }
+
+    @Override
+    public List<Profesor> obtenerProfesores() {
+        try{
+            ProfesoresResponse response = this.repositorio.consultarProfesores();
+            if(response == null || response.getItems() == null || response.getItems().isEmpty() || response.getCount() == 0){
+                this.vista.mostrarMensajeError("No se encontraron profesores");
+                return null;
+            }else{
+                return response.getItems();
+            }
+        }catch(Exception error){
+            error.printStackTrace();
+        }
+        return null;
     }
 }

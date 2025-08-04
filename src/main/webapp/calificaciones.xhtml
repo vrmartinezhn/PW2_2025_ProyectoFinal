@@ -165,14 +165,14 @@
                                  <p:selectOneMenu id="option" value="#{CalificacionesBean.selectedCalificacion.id_estudiante}" required="true">
                                     <f:selectItem itemLabel="Seleccione" itemValue=""/>
                                     <f:selectItems value="#{EstudiantesBean.obtenerEstudiantes()}" var="estudiante"
-                                                   itemLabel="#{estudiante.nombreCompletoUsuario()}" itemValue="#{estudiante.id}" />
+                                                   itemLabel="#{estudiante.nombreCompletoCuenta()}" itemValue="#{estudiante.id}" />
                                  </p:selectOneMenu>
                               </div>
                            </div>
                            <div class="field col">
                                     <div class="field col-12 md:col-4">
                                         <p:outputLabel for="@next" value="Profesor"/>
-                                        <p:selectOneMenu id="option" value="#{CalificacionesBean.selectedCalificacion.id_profesor}" required="true">
+                                        <p:selectOneMenu id="option2" value="#{CalificacionesBean.selectedCalificacion.id_profesor}" required="true">
                                             <f:selectItem itemLabel="Seleccione" itemValue=""/>
                                             <f:selectItems value="#{ProfesoresBean.obtenerProfesores()}" var="profesor"
                                                            itemLabel="#{profesor.nombreCompletoUsuario()}" itemValue="#{profesor.id}" />

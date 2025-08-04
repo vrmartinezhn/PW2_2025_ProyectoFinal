@@ -10,5 +10,6 @@ public interface ProfesoresInteractor {
     void actualizarProfesor(Profesor profesor);
     void consultarProfesorPorId(int id);
     boolean consultarProfesorPorUsuarioContra(String usuario, String contra);
+    List<Profesor> obtenerProfesores();
 }
 

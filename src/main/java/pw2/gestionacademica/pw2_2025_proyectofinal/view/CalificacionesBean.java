@@ -65,6 +65,16 @@ public class CalificacionesBean implements Serializable, CalificacionesViewModel
         this.selectedCalificaciones = null;
     }
 
+    public List<Calificacion> obtenerCalificacionesIdEstudiante(int idEstudiante) {
+        List<Calificacion> retorno = new ArrayList<>();
+        calificaciones.forEach(c -> {
+            if(c.getId_estudiante() == idEstudiante){
+                retorno.add(c);
+            }
+        });
+        return retorno;
+    }
+
     private void mostrarMensaje(String mensaje, FacesMessage.Severity tipo) {
         FacesMessage message = new FacesMessage(tipo, mensaje, null);
         PrimeFaces.current().dialog().showMessageDynamic(message);

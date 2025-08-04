@@ -18,11 +18,11 @@
         <f:viewAction action="#{LoginBean.verificarSesionPortalPadres()}" />
     </f:metadata>
 
-    <div class="navbar" style="background: #1e1e1e; display: flex; place-content: space-between; padding: 1.5rem">
+    <div class="navbar" style="background: #1e1e1e; display: flex; place-content: space-between; padding: 1.5rem; border-bottom: 1px solid white; pointer-events: all">
         <h1><i class="pi pi-book" style="font-size: 1.7rem; margin-right: 0.5rem;"></i>Studify</h1>
 
         <h:form>
-            <p:commandButton action="#{LoginBean.logout()}" style="font-weight: bold; pointer-events: all;" value="Salir"/>
+            <p:commandButton action="#{LoginBean.logout()}" style="font-weight: bold;" value="Salir"/>
         </h:form>
     </div>
 
@@ -34,69 +34,37 @@
                     <p:outputLabel value="Calificaciones de #{LoginBean.estudiante.nombreCompletoCuenta()}"/>
                 </f:facet>
 
-                <p:column headerText="Año" sortBy="#{calificacion.id_estudiante}" filterBy="#{calificacion.id_estudiante}">
+                <p:column headerText="Año" sortBy="#{calificacion.anio}" filterBy="#{calificacion.anio}">
                     <h:outputText value="#{calificacion.anio}" />
                 </p:column>
 
-                <p:column headerText="Período" sortOrder="#{calificacion.segundo_parcial}" filterBy="#{calificacion.segundo_parcial}">
+                <p:column headerText="Período" sortBy="#{calificacion.segundo_parcial}" filterBy="#{calificacion.segundo_parcial}">
                     <h:outputText value="#{calificacion.periodo}" />
                 </p:column>
 
-
-                <p:column headerText="" >
-
-                    <p:commandButton icon="pi pi-eye" update=":dialogs:manage-calificacion-content"
-                                     oncomplete="PF('manageCalificacionDialog').show()"
-                                     styleClass="edit-button rounded-button ui-button-success" process="@this" value="Ver">
-                        <f:setPropertyActionListener value="#{calificacion}" target="#{CalificacionesBean.selectedCalificacion}" />
-                        <p:resetInput target=":dialogs:manage-calificacion-content" />
-                    </p:commandButton>
-
+                <p:column headerText="Materia">
+                    <h:outputText value="#{MateriasBean.mostrarNombreMateria(calificacion.id_materia)}" />
                 </p:column>
+
+                <p:column headerText="1P" sortBy="#{calificacion.primer_parcial}" filterBy="#{calificacion.primer_parcial}">
+                    <h:outputText value="#{calificacion.primer_parcial}" />
+                </p:column>
+
+                <p:column headerText="2P" sortBy="#{calificacion.segundo_parcial}" filterBy="#{calificacion.segundo_parcial}">
+                    <h:outputText value="#{calificacion.segundo_parcial}" />
+                </p:column>
+
+                <p:column headerText="3P" sortBy="#{calificacion.tercer_parcial}" filterBy="#{calificacion.tercer_parcial}">
+                    <h:outputText value="#{calificacion.tercer_parcial}" />
+                </p:column>
+
+                <p:column headerText="Observación">
+                    <h:outputText value="#{calificacion.observacion}" />
+                </p:column>
+
 
             </p:dataTable>
         </h:form>
     </div>
-
-    <h:form id="dialogs" style="width: 60%">
-        <p:dialog header="Calificaciones" showEffect="fade" modal="true" widgetVar="manageCalificacionDialog"
-                  responsive="true" style="max-width: 700px">
-
-            <p:outputPanel id="manage-calificacion-content" class="ui-fluid">
-
-                <div class="card dialog-cal">
-                    <h:form>
-                        <p:dataTable var="calificacion" value="#{CalificacionesBean.selectedCalificacion}"  emptyMessage="No hay calififcaciones disponibles.">
-
-                            <p:column headerText="Materia">
-                                <h:outputText value="#{MateriasBean.mostrarNombreMateria(calificacion.id_materia)}"/>
-                            </p:column>
-
-                            <p:column headerText="1P">
-                                <h:outputText value="#{calificacion.primer_parcial}" />
-                            </p:column>
-
-                            <p:column headerText="2P">
-                                <h:outputText value="#{calificacion.segundo_parcial}" />
-                            </p:column>
-
-                            <p:column headerText="3P" >
-                                <h:outputText value="#{calificacion.tercer_parcial}" />
-                            </p:column>
-
-                            <p:column headerText="Observación" >
-                                <h:outputText value="#{calificacion.observacion}" />
-                            </p:column>
-
-                        </p:dataTable>
-
-                    </h:form>
-                </div>
-            </p:outputPanel>
-        </p:dialog>
-    </h:form>
-
-
-    <script src="js/main.js" type=""></script>
 </h:body>
 </html>

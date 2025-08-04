@@ -27,9 +27,7 @@ public class CalificacionesBean implements Serializable, CalificacionesViewModel
         controller = new CalificacionesInteractorImpl(this);
         controller.consultarCalificaciones();
     }
-
-
-
+    
     public void openNew() {
         this.selectedCalificacion = new Calificacion();
     }

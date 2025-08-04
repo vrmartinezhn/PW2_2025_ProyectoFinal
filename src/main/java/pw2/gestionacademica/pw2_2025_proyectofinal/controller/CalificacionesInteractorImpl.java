@@ -20,7 +20,7 @@ public class CalificacionesInteractorImpl implements CalificacionesInteractor {
         try{
             CalificacionesResponse response = this.repositorio.consultarCalificaciones();
             if(response == null || response.getItems() == null || response.getItems().isEmpty() || response.getCount() == 0){
-                this.vista.mostrarMensajeError("No se encontraron peliculas");
+                this.vista.mostrarMensajeError("No se encontraron calificaciones");
             }else{
                 this.vista.mostrarCalificacionesDataTable(response.getItems());
             }

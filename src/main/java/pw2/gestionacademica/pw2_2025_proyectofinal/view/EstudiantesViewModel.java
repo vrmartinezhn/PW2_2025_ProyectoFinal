@@ -8,4 +8,5 @@ public interface EstudiantesViewModel {
     void mostrarMensajeExito(String mensaje);
     void mostrarMensajeError(String mensaje);
     void refrescarPantalla();
+    void cargarEstudiante(Estudiante estudiante);
 }

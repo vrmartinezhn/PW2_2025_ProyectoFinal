@@ -11,7 +11,6 @@ import pw2.gestionacademica.pw2_2025_proyectofinal.model.Materia;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Named("MateriasBean")
 @ViewScoped
@@ -20,6 +19,8 @@ public class MateriasBean implements Serializable, MateriasViewModel {
     private List<Materia> selectedMaterias;
     private Materia selectedMateria;
     private MateriasInteractor controller;
+    private Materia materiaPorId;
+    private int idBusqueda;
 
     public MateriasBean() {
         this.materias = new ArrayList<>();
@@ -36,7 +37,7 @@ public class MateriasBean implements Serializable, MateriasViewModel {
     public String getDeleteButtonMessage() {
         if (hasSelectedMateria()) {
             int size = this.selectedMaterias.size();
-            return size > 1 ? size  + " Materias seleccionadas" : "1 materia seleccionada";
+            return size > 1 ? size  + " Materias seleccionadas" : "1 Materia seleccionada";
         }
 
         return "Eliminar";
@@ -95,9 +96,30 @@ public class MateriasBean implements Serializable, MateriasViewModel {
         this.selectedMateria = selectedMateria;
     }
 
+    //Añadir
+    /*public int getIdBusqueda() {
+        return idBusqueda;
+    }
+    public void setIdBusqueda(int idBusqueda) {
+        this.idBusqueda = idBusqueda;
+    }*/
+
+    public String mostrarNombreMateria(int id){
+        controller.consultarMateriaPorId(id);
+        if (materiaPorId != null) {
+            return materiaPorId.getMateria();
+        }
+        return "Error";
+    }
+
     @Override
     public void mostrarMateriasDataTable(List<Materia> materias) {
         this.materias = materias;
+    }
+
+    @Override
+    public void cargarMateria(Materia materia) {
+        this.materiaPorId = materia;
     }
 
     @Override

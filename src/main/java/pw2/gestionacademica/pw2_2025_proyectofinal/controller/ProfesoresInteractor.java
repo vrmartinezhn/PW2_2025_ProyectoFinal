@@ -2,6 +2,8 @@ package pw2.gestionacademica.pw2_2025_proyectofinal.controller;
 
 import pw2.gestionacademica.pw2_2025_proyectofinal.model.Profesor;
 
+import java.util.List;
+
 public interface ProfesoresInteractor {
     void consultarProfesores();
     void crearProfesor(Profesor profesor);

@@ -9,4 +9,5 @@ public interface MateriasViewModel {
     void refrescarPantalla();
     void mostrarMensajeExito(String mensaje);
     void mostrarMensajeError(String mensaje);
+    void cargarMateria(Materia materia);
 }

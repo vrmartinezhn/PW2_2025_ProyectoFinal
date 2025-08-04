@@ -121,6 +121,10 @@ public class EstudiantesBean implements Serializable, EstudiantesViewModel {
     
     //public void setEstudiantePorId(Estudiante estudiantePorId) {this.estudiantePorId = estudiantePorId;}
 
+    public List<Estudiante> obtenerEstudiantes(){
+        return controller.obtenerEstudiantes();
+    }
+
     @Override
     public void mostrarEstudiantesDataTable(List<Estudiante> estudiantes) {
         this.estudiantes = estudiantes;

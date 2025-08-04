@@ -8,6 +8,7 @@ import pw2.gestionacademica.pw2_2025_proyectofinal.controller.EstudiantesInterac
 import pw2.gestionacademica.pw2_2025_proyectofinal.controller.EstudiantesInteractorImpl;
 import pw2.gestionacademica.pw2_2025_proyectofinal.controller.ProfesoresInteractor;
 import pw2.gestionacademica.pw2_2025_proyectofinal.controller.ProfesoresInteractorImpl;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.Estudiante;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -24,11 +25,13 @@ public class LoginBean implements Serializable{
     private boolean autenticadoPortalPadres = false;
     private EstudiantesInteractor controllerEstudiantes;
     private ProfesoresInteractor controllerProfesores;
+    private Estudiante estudiante = null;
 
 
     public LoginBean() {
         controllerEstudiantes = new EstudiantesInteractorImpl();
         controllerProfesores = new ProfesoresInteractorImpl();
+
     }
 
     public void evitarCache() {
@@ -70,7 +73,8 @@ public class LoginBean implements Serializable{
     }
 
     public String loginPortalPadres() {
-        if (buscarEstudiantePorNumeroCuenta()) {
+        estudiante = buscarEstudiantePorNumeroCuenta();
+        if (estudiante != null) {
             evitarCache();
             autenticadoPortalPadres = true;
             return "portal-padres.xhtml?faces-redirect=true";
@@ -104,7 +108,7 @@ public class LoginBean implements Serializable{
         this.cuenta = cuenta;
     }
 
-    public boolean buscarEstudiantePorNumeroCuenta() {
+    public Estudiante buscarEstudiantePorNumeroCuenta() {
         return controllerEstudiantes.consultarEstudiantePorNumero_cuenta(cuenta);
     }
 
@@ -119,5 +123,12 @@ public class LoginBean implements Serializable{
 
     public void showError(String contenido) {
         addMessage(FacesMessage.SEVERITY_ERROR, "Error", contenido);
+    }
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
     }
 }

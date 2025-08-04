@@ -14,6 +14,11 @@ public class EstudiantesInteractorImpl implements EstudiantesInteractor {
         this.repositorio = DatabaseRepositoryImpl.getInstance("https://apex.oracle.com", 3L);
     }
 
+    public EstudiantesInteractorImpl() {
+        super();
+        this.repositorio = DatabaseRepositoryImpl.getInstance("https://apex.oracle.com", 3L);
+    }
+
     @Override
     public void consultarEstudiantes() {
         try{
@@ -57,6 +62,7 @@ public class EstudiantesInteractorImpl implements EstudiantesInteractor {
             error.printStackTrace();
         }
     }
+    
     @Override
     public void eliminarEstudiante(int id) {
         try{
@@ -90,7 +96,6 @@ public class EstudiantesInteractorImpl implements EstudiantesInteractor {
         }
     }
 
-// tienen que añadirlo
     @Override
     public void consultarEstudiantePorId(int id) {
         try {
@@ -98,7 +103,7 @@ public class EstudiantesInteractorImpl implements EstudiantesInteractor {
             if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
                 this.vista.mostrarMensajeError("No se encontró el estudiante con ID " + id);
             } else {
-                this.vista.mostrarEstudiantesDataTable(response.getItems());
+                this.vista.cargarEstudiante(response.getItems().getFirst());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,19 +111,19 @@ public class EstudiantesInteractorImpl implements EstudiantesInteractor {
         }
     }
 
-    public void consultarEstudiantePornumero_cuenta(int numero_cuenta) {
+    @Override
+    public boolean consultarEstudiantePorNumero_cuenta(int numero_cuenta) {
         try {
             EstudiantesResponse response = this.repositorio.consultarEstudiantePornumero_cuenta(numero_cuenta);
             if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
-                this.vista.mostrarMensajeError("No se encontró el estudiante con este numero de cuenta " + numero_cuenta);
+                return false;
             } else {
-                this.vista.mostrarEstudiantesDataTable(response.getItems());
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            this.vista.mostrarMensajeError("Error al consultar estudiante por numero de cuenta.");
+            this.vista.mostrarMensajeError("Error al consultar estudiante por número de cuenta.");
         }
+        return false;
     }
-
-
 }

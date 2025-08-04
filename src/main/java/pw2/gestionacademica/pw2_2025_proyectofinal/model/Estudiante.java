@@ -73,6 +73,8 @@ public class Estudiante implements Serializable {
     }
     public void setCorreo(String correo) {this.correo = correo;}
 
-
+    public String nombreCompletoCuenta() {
+        return nombre + " " + apellido + " (" + numero_cuenta + ")";
+    }
 
 }

@@ -282,3 +282,9 @@ div.details>div>div>table>thead>tr>th.ui-state-default{
 div.table-cal>form>div>div>table>thead>tr>th.ui-state-default:last-child{
     width: 6rem !important;
 }
+
+div.ui-paginator>div{
+    display: none !important;
+    opacity: 0 !important;
+
+}

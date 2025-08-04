@@ -163,10 +163,16 @@
                               <p:outputLabel for="estudiante">Estudiante</p:outputLabel>
                               <p:inputText id="estudiante" value="#{CalificacionesBean.selectedCalificacion.id_estudiante}" required="true" />
                            </div>
-                           <div class="field">
-                              <p:outputLabel for="profesor">Profesor</p:outputLabel>
-                              <p:inputText id="profesor" value="#{CalificacionesBean.selectedCalificacion.id_profesor}" required="true" />
-                           </div>
+                           <div class="field col">
+                                    <div class="field col-12 md:col-4">
+                                        <p:outputLabel for="@next" value="Profesor"/>
+                                        <p:selectOneMenu id="option" value="#{CalificacionesBean.selectedCalificacion.id_profesor}">
+                                            <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                            <f:selectItems value="#{ProfesoresBean.obtenerProfesores()}" var="profesor"
+                                                           itemLabel="#{profesor.nombre}" itemValue="#{profesor.id}" />
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
                         </div>
                         <div>
                            <div class="field">

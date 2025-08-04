@@ -4,6 +4,9 @@ import pw2.gestionacademica.pw2_2025_proyectofinal.model.*;
 import pw2.gestionacademica.pw2_2025_proyectofinal.view.*;
 import pw2.gestionacademica.pw2_2025_proyectofinal.repository.DatabaseRepositoryImpl;
 
+import java.util.List;
+
+
 public class EstudiantesInteractorImpl implements EstudiantesInteractor {
     private DatabaseRepositoryImpl repositorio;
     private EstudiantesViewModel vista;
@@ -125,5 +128,21 @@ public class EstudiantesInteractorImpl implements EstudiantesInteractor {
             this.vista.mostrarMensajeError("Error al consultar estudiante por número de cuenta.");
         }
         return false;
+    }
+
+
+    @Override
+    public List<Estudiante> obtenerEstudiantes() {
+        try{
+            EstudiantesResponse response = this.repositorio.consultarEstudiantes();
+            if(response == null || response.getItems() == null || response.getItems().isEmpty() || response.getCount() == 0){
+                return null;
+            }else{
+                return response.getItems();
+            }
+        }catch(Exception error){
+            error.printStackTrace();
+        }
+        return null;
     }
 }

@@ -5,6 +5,8 @@ import pw2.gestionacademica.pw2_2025_proyectofinal.model.MateriasResponse;
 import pw2.gestionacademica.pw2_2025_proyectofinal.repository.DatabaseRepositoryImpl;
 import pw2.gestionacademica.pw2_2025_proyectofinal.view.MateriasViewModel;
 
+import java.util.List;
+
 public class MateriasInteractorImpl implements MateriasInteractor {
     private DatabaseRepositoryImpl repositorio;
     private MateriasViewModel vista;
@@ -105,5 +107,20 @@ public class MateriasInteractorImpl implements MateriasInteractor {
             e.printStackTrace();
             this.vista.mostrarMensajeError("Error al consultar materia por ID.");
         }
+    }
+
+    @Override
+    public List<Materia> getMateriasPorIdProfesor(int id) {
+        try {
+            MateriasResponse response = this.repositorio.getMateriasPorIdProfesor(id);
+            if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
+                return null;
+            } else {
+                return response.getItems();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

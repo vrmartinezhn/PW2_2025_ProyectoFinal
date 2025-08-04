@@ -106,7 +106,6 @@ public class ProfesoresBean implements Serializable, ProfesoresViewModel {
     }
 
     public List<Profesor> obtenerProfesores(){
-        System.out.println("obtenerProfesores");
         return controller.obtenerProfesores();
     }
 

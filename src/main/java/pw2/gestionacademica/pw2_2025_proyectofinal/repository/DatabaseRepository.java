@@ -97,7 +97,7 @@ public interface DatabaseRepository {
     @DELETE("/pls/apex/uthworkspace/appacademica/calificaciones")
     Call<ResponseBody> deleteCalificacion(@Query("id") int id);
 
-    //=====================================================================estudiante
+    //=============================Estudiante==========================
      @Headers({
             "Accept: application/vnd.github.v3.full+json",
             "User-Agent: Retrofit-Sample-App"
@@ -125,7 +125,7 @@ public interface DatabaseRepository {
     @DELETE("/pls/apex/uthworkspace/appacademica/estudiantes")
     Call<ResponseBody> deleteEstudiante(@Query("id") int id);
 
-    //para buscar estudinateporid
+    //=========================EXTRAS=============================
     @Headers({
             "Accept: application/vnd.github.v3.full+json",
             "User-Agent: Retrofit-Sample-App"
@@ -133,14 +133,32 @@ public interface DatabaseRepository {
     @GET("/pls/apex/uthworkspace/appacademica/estudianteid")
     Call<EstudiantesResponse> getEstudiantePorId(@Query("id") int id);
 
-       @Headers({
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json",
+            "User-Agent: Retrofit-Sample-App"
+    })
+    @GET("/pls/apex/uthworkspace/appacademica/materiaid")
+    Call<MateriasResponse> getMateriaPorId(@Query("id") int id);
+
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json",
+            "User-Agent: Retrofit-Sample-App"
+    })
+    @GET("/pls/apex/uthworkspace/appacademica/profesorid")
+    Call<ProfesoresResponse> getProfesorPorId(@Query("id") int id);
+
+    @Headers({
             "Accept: application/vnd.github.v3.full+json",
             "User-Agent: Retrofit-Sample-App"
     })
     @GET("/pls/apex/uthworkspace/appacademica/estudiantecuenta")
-    Call<EstudiantesResponse> getEstudiantePornumero_cuenta(@Query("numero_cuenta") int numero_cuenta);
+    Call<EstudiantesResponse> getEstudiantePorNumero_cuenta(@Query("numero_cuenta") int numero_cuenta);
 
-    
-    
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json",
+            "User-Agent: Retrofit-Sample-App"
+    })
+    @GET("/pls/apex/uthworkspace/appacademica/profesorusuariocontra")
+    Call<ProfesoresResponse> getProfesorPorUsuarioContra(@Query("usuario") String usuario, @Query("contra") String contra);
 }
 

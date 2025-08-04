@@ -59,14 +59,15 @@
 
             <p:toolbar>
                <p:toolbarGroup>
-                  <p:commandButton value="Crear" icon="pi pi-plus" actionListener="#{CalificacionesBean.openNew}"
+                  <p:commandButton value="Nueva Calificación" icon="pi pi-plus" actionListener="#{CalificacionesBean.openNew}"
                                    update=":dialogs:manage-calificacion-content" oncomplete="PF('manageCalificacionDialog').show()"
                                    styleClass="ui-button-success" style="margin-right: .5rem">
                      <p:resetInput target=":dialogs:manage-calificacion-content" />
                   </p:commandButton>
                   <p:commandButton id="delete-button" value="#{CalificacionesBean.deleteButtonMessage}"
                                    icon="pi pi-trash" actionListener="#{CalificacionesBean.eliminarCalificaciones()}"
-                                   styleClass="ui-button-danger" disabled="#{!CalificacionesBean.hasSelectedCalificacion()}" update="@this">
+                                   process="@this" update=":form:delete-button :form:dt-calificaciones"
+                                   styleClass="ui-button-danger" disabled="#{!CalificacionesBean.hasSelectedCalificacion()}" updates=":form:dt-calificaciones :form:delete-button">
                      <p:confirm header="Confirmación" message="¿Deseas eliminar las calificaciones seleccionadas?"
                                 icon="pi pi-exclamation-triangle" />
                   </p:commandButton>
@@ -77,10 +78,10 @@
                          reflow="true" styleClass="products-table" selectionMode="multiple" selection="#{CalificacionesBean.selectedCalificaciones}"
                          rowKey="#{calificacion.id}" paginator="true" rows="10" selectionRowMode="add" paginatorPosition="bottom">
                <f:facet name="header">
-                  <div class="products-table-header">
-                     <span style="font-weight: bold">Calificación </span>
+                  <div class="products-table-header" style="text-align: right">
+                     <span style="font-weight: bold"></span>
                      <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
-                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtCalificaciones').filter())" placeholder="Buscar" />
+                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtCalificaciones').filter())" placeholder="Buscar Calificación" />
                     </span>
                   </div>
                </f:facet>
@@ -99,14 +100,15 @@
                <p:column headerText="Periodo" sortBy="#{calificacion.periodo}" filterBy="#{calificacion.periodo}" filterMatchMode="contains">
                   <h:outputText value="#{calificacion.periodo}" />
                </p:column>
-               <p:column headerText="Estudiante" sortBy="#{calificacion.id_estudiante}" filterBy="#{calificacion.id_estudiante}" filterMatchMode="contains">
-                  <h:outputText value="#{calificacion.id_estudiante}" />
+               <p:column headerText="Estudiante">
+                  <h:outputText value="#{EstudiantesBean.mostrarNombreAlumno(calificacion.id_estudiante)}" />
                </p:column>
-               <p:column headerText="Profesor" sortBy="#{calificacion.id_profesor}" filterBy="#{calificacion.id_profesor}" filterMatchMode="contains">
-                  <h:outputText value="#{calificacion.id_profesor}" />
+               <p:column headerText="Profesor" >
+                  <h:outputText value="#{ProfesoresBean.mostrarNombreProfesor(calificacion.id_profesor)}" />
                </p:column>
-               <p:column headerText="Materia" sortBy="#{calificacion.id_materia}" filterBy="#{calificacion.id_materia}" filterMatchMode="contains">
-                  <h:outputText value="#{calificacion.id_materia}" />
+               <p:column headerText="Materia">
+                  <h:outputText value="#{
+                 MateriasBean.mostrarNombreMateria(calificacion.id_materia)}" />
                </p:column>
                <p:column headerText="1P" sortBy="#{calificacion.primer_parcial}" filterBy="#{calificacion.primer_parcial}" filterMatchMode="contains">
                   <h:outputText value="#{calificacion.primer_parcial}" style="font-weight: 700"/>
@@ -147,42 +149,51 @@
                      <p:graphicImage name="images/product/#{CalificacionesBean.selectedCalificacion.primer_parcial}" library="demo"
                                      styleClass="product-image" rendered="#{not empty CalificacionesBean.selectedCalificacion.primer_parcial}" />
 
-                     <div class="field">
-                        <p:outputLabel for="anio">Año</p:outputLabel>
-                        <p:inputText id="anio" value="#{CalificacionesBean.selectedCalificacion.anio}" required="true" />
-                     </div>
-                     <div class="field">
-                        <p:outputLabel for="periodo">Periódo</p:outputLabel>
-                        <p:inputText id="periodo" value="#{CalificacionesBean.selectedCalificacion.periodo}" required="true" />
-                     </div>
-                     <div class="field">
-                        <p:outputLabel for="estudiante">Estudiante</p:outputLabel>
-                        <p:inputText id="estudiante" value="#{CalificacionesBean.selectedCalificacion.id_estudiante}" required="true" />
-                     </div>
-                     <div class="field">
-                        <p:outputLabel for="profesor">Profesor</p:outputLabel>
-                        <p:inputText id="profesor" value="#{CalificacionesBean.selectedCalificacion.id_profesor}" required="true" />
-                     </div>
-                     <div class="field">
-                        <p:outputLabel for="materia">Materia</p:outputLabel>
-                        <p:inputText id="materia" value="#{CalificacionesBean.selectedCalificacion.id_materia}" />
-                     </div>
-                     <div class="field">
-                        <p:outputLabel for="parcial1">1P</p:outputLabel>
-                        <p:inputText id="parcial1" value="#{CalificacionesBean.selectedCalificacion.primer_parcial}" />
-                     </div>
-                     <div class="field">
-                        <p:outputLabel for="parcial2">2P</p:outputLabel>
-                        <p:inputText id="parcial2" value="#{CalificacionesBean.selectedCalificacion.segundo_parcial}" />
-                     </div>
-                     <div class="field">
-                        <p:outputLabel for="parcial3">3P</p:outputLabel>
-                        <p:inputText id="parcial3" value="#{CalificacionesBean.selectedCalificacion.tercer_parcial}" />
+                     <div style="display: grid; grid-template-columns: auto auto; gap: 1rem">
+                        <div>
+                           <div class="field">
+                              <p:outputLabel for="anio">Año</p:outputLabel>
+                              <p:inputText id="anio" value="#{CalificacionesBean.selectedCalificacion.anio}" required="true" />
+                           </div>
+                           <div class="field">
+                              <p:outputLabel for="periodo">Periódo</p:outputLabel>
+                              <p:inputText id="periodo" value="#{CalificacionesBean.selectedCalificacion.periodo}" required="true" />
+                           </div>
+                           <div class="field">
+                              <p:outputLabel for="estudiante">Estudiante</p:outputLabel>
+                              <p:inputText id="estudiante" value="#{CalificacionesBean.selectedCalificacion.id_estudiante}" required="true" />
+                           </div>
+                           <div class="field">
+                              <p:outputLabel for="profesor">Profesor</p:outputLabel>
+                              <p:inputText id="profesor" value="#{CalificacionesBean.selectedCalificacion.id_profesor}" required="true" />
+                           </div>
+                        </div>
+                        <div>
+                           <div class="field">
+                              <p:outputLabel for="materia">Materia</p:outputLabel>
+                              <p:inputText id="materia" value="#{CalificacionesBean.selectedCalificacion.id_materia}" />
+                           </div>
+                           <div class="field">
+                              <p:outputLabel for="parcial1">1P</p:outputLabel>
+                              <p:inputText id="parcial1" value="#{CalificacionesBean.selectedCalificacion.primer_parcial}" />
+                           </div>
+                           <div class="field">
+                              <p:outputLabel for="parcial2">2P</p:outputLabel>
+                              <p:inputText id="parcial2" value="#{CalificacionesBean.selectedCalificacion.segundo_parcial}" />
+                           </div>
+                           <div class="field">
+                              <p:outputLabel for="parcial3">3P</p:outputLabel>
+                              <p:inputText id="parcial3" value="#{CalificacionesBean.selectedCalificacion.tercer_parcial}" />
+                           </div>
+
+                        </div>
                      </div>
                      <div class="field">
                         <p:outputLabel for="observacion">Observación</p:outputLabel>
                         <p:inputTextarea id="observacion" value="#{CalificacionesBean.selectedCalificacion.observacion}" />
                      </div>
+
+
 
                   </p:outputPanel>
                </p:outputPanel>

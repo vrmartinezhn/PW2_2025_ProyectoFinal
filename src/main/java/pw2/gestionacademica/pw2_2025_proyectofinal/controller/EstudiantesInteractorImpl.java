@@ -115,19 +115,20 @@ public class EstudiantesInteractorImpl implements EstudiantesInteractor {
     }
 
     @Override
-    public boolean consultarEstudiantePorNumero_cuenta(int numero_cuenta) {
+    public Estudiante consultarEstudiantePorNumero_cuenta(int numero_cuenta) {
         try {
             EstudiantesResponse response = this.repositorio.consultarEstudiantePornumero_cuenta(numero_cuenta);
             if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
-                return false;
+
+                return null;
             } else {
-                return true;
+                return response.getItems().getFirst();
             }
         } catch (Exception e) {
             e.printStackTrace();
             this.vista.mostrarMensajeError("Error al consultar estudiante por número de cuenta.");
         }
-        return false;
+        return null;
     }
 
 

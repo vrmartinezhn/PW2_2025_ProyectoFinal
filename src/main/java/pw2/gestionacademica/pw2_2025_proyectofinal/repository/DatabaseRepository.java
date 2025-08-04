@@ -160,5 +160,12 @@ public interface DatabaseRepository {
     })
     @GET("/pls/apex/uthworkspace/appacademica/profesorusuariocontra")
     Call<ProfesoresResponse> getProfesorPorUsuarioContra(@Query("usuario") String usuario, @Query("contra") String contra);
+
+    @Headers({
+            "Accept: application/vnd.github.v3.full+json",
+            "User-Agent: Retrofit-Sample-App"
+    })
+    @GET("/pls/apex/uthworkspace/appacademica/materiasidprofesor")
+    Call<MateriasResponse> getMateriasPorIdProfesor(@Query("id_profesor") int id_profesor);
 }
 

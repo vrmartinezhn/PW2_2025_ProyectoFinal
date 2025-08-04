@@ -9,4 +9,5 @@ public interface ProfesoresViewModel {
     void refrescarPantalla();
     void mostrarMensajeExito(String mensaje);
     void mostrarMensajeError(String mensaje);
+    void cargarProfesor(Profesor profesor);
 }

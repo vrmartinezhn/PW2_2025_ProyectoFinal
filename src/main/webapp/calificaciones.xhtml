@@ -169,7 +169,7 @@
                                         <p:selectOneMenu id="option" value="#{CalificacionesBean.selectedCalificacion.id_profesor}" required="true">
                                             <f:selectItem itemLabel="Seleccione" itemValue=""/>
                                             <f:selectItems value="#{ProfesoresBean.obtenerProfesores()}" var="profesor"
-                                                           itemLabel="#{profesor.nombre}" itemValue="#{profesor.id}" />
+                                                           itemLabel="#{profesor.nombreCompletoUsuario()}" itemValue="#{profesor.id}" />
                                         </p:selectOneMenu>
                                     </div>
                                 </div>

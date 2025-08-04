@@ -30,7 +30,7 @@
                 <p:menuitem value="Profesores"  icon="pi pi-address-book" outcome="profesores.xhtml">
                     <f:param name="i" value="0"/>
                 </p:menuitem>
-                <p:menuitem value="Materias"  icon="pi pi-book">
+                <p:menuitem value="Materias"  icon="pi pi-book" outcome="materias.xhtml">
                     <f:param name="i" value="1"/>
                 </p:menuitem>
                 <p:menuitem value="Estudiantes"  icon="pi pi-graduation-cap" outcome="estudiantes.xhtml">
@@ -52,13 +52,13 @@
         </div>
 
         <!-- TRABAJAR A PARTIR DE AQUIIIIIIIII -->
-        <div class="card crud-demo" style="padding: 1rem; background: var(--surface-100)">
+        <div class="card crud-demo" style="padding: 1rem; background: var(--surface-100); overflow-y: scroll">
             <h:form id="form">
                 <p:growl id="messages" showDetail="true" />
 
                 <p:toolbar>
                     <p:toolbarGroup>
-                        <p:commandButton value="Crear Materia" icon="pi pi-book" actionListener="#{MateriasBean.openNew}"
+                        <p:commandButton value="Nueva Materia" icon="pi pi-plus" actionListener="#{MateriasBean.openNew}"
                                          update=":dialogs:manage-materia-content" oncomplete="PF('manageMateriaDialog').show()"
                                          styleClass="ui-button-success" style="margin-right: .5rem">
                             <p:resetInput target=":dialogs:manage-materia-content" />
@@ -77,10 +77,10 @@
                              reflow="true" styleClass="products-table" selectionMode="multiple" selection="#{MateriasBean.selectedMaterias}"
                              rowKey="#{materia.id}" paginator="true" rows="10" selectionRowMode="add" paginatorPosition="bottom">
                     <f:facet name="header">
-                        <div class="products-table-header">
-                            <span style="font-weight: bold">Materias</span>
+                        <div class="products-table-header" style="text-align: right">
+                            <span style="font-weight: bold"></span>
                             <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
-                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtMaterias').filter())" placeholder="Buscar" />
+                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtMaterias').filter())" placeholder="Buscar Materia" />
                     </span>
                         </div>
                     </f:facet>
@@ -99,8 +99,8 @@
                     <p:column headerText="Materia" sortBy="#{materia.materia}" filterBy="#{materia.materia}">
                         <h:outputText value="#{materia.materia}" />
                     </p:column>
-                    <p:column headerText="Profesor" sortBy="#{materia.id_profesor}" filterBy="#{materia.id_profesor}">
-                        <h:outputText value="#{materia.id_profesor}" style="font-weight: 700"/>
+                    <p:column headerText="Profesor">
+                        <h:outputText value="#{ProfesoresBean.mostrarNombreProfesor(materia.id_profesor)}" style="font-weight: 700"/>
                     </p:column>
                     <p:column headerText="Estado" sortBy="#{materia.estatus}" filterBy="#{materia.estatus}">
                         <h:outputText value="#{materia.estatus}" />
@@ -143,13 +143,11 @@
                                     <p:inputText id="id_profesor" value="#{MateriasBean.selectedMateria.id_profesor}" required="true" />
                                 </div>
                                 <div class="field col">
-                                    <p:outputLabel for="estatus">Estado</p:outputLabel>
-                                    <p:selectOneMenu id="estatus" value="#{MateriasBean.selectedMateria.estatus}" required="true">
-                                        <f:selectItem itemLabel="Seleccione un estado" itemValue="" noSelectionOption="true" />
+                                    <p:outputLabel for="estado">Estado</p:outputLabel>
+                                    <p:selectOneRadio id="estado" value="#{MateriasBean.selectedMateria.estatus}" layout="responsive" columns="2">
                                         <f:selectItem itemLabel="Activo" itemValue="Activo" />
                                         <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
-                                    </p:selectOneMenu>
-                                    <p:message for="estatus" />
+                                    </p:selectOneRadio>
                                 </div>
                             </div>
                         </p:outputPanel>

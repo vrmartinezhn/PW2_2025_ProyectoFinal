@@ -11,6 +11,6 @@ public interface EstudiantesInteractor {
         void eliminarEstudiante(int id);
         void eliminarEstudiantes(int[] ids);
         void consultarEstudiantePorId(int id);
-        boolean consultarEstudiantePorNumero_cuenta(int numero_cuenta);
+        Estudiante consultarEstudiantePorNumero_cuenta(int numero_cuenta);
         List<Estudiante> obtenerEstudiantes();
 }

@@ -18,20 +18,19 @@ public class EstudiantesBean implements Serializable, EstudiantesViewModel {
     private List<Estudiante> estudiantes;
     private List<Estudiante> selectedEstudiantes;
     private Estudiante selectedEstudiante;
+    private Estudiante estudiantePorId;
     private EstudiantesInteractor controller;
-
-    // tienen que añadirlo
     private int idBusqueda;
-    private int cuentaBusqueda;
-
 
     public EstudiantesBean() {
         this.estudiantes = new ArrayList<>();
         this.selectedEstudiantes = new ArrayList<>();
         this.selectedEstudiante = null;
+        this.estudiantePorId = null;
         controller = new EstudiantesInteractorImpl(this);
         controller.consultarEstudiantes();
     }
+
 // buscar estudianteporid
     public void buscarEstudiantePorId() {
         if (idBusqueda > 0) {
@@ -40,15 +39,7 @@ public class EstudiantesBean implements Serializable, EstudiantesViewModel {
             controller.consultarEstudiantes();
         }
     }
-
-    public void buscarEstudiantePornumero_cuenta() {
-        if (cuentaBusqueda > 0) {
-            controller.consultarEstudiantePornumero_cuenta(cuentaBusqueda);
-        } else {
-            controller.consultarEstudiantes();
-        }
-    }
-
+    
     public void openNew() {
         this.selectedEstudiante = new Estudiante();
     }
@@ -119,18 +110,25 @@ public class EstudiantesBean implements Serializable, EstudiantesViewModel {
 
     public void setIdBusqueda(int idBusqueda) {this.idBusqueda = idBusqueda;}
 
-    public int getCuentaBusqueda() {
-        return cuentaBusqueda;
-    }
 
-    public void setCuentaBusqueda(int cuentaBusqueda) {
-        this.cuentaBusqueda = cuentaBusqueda;
+    public String mostrarNombreAlumno(int id){
+        controller.consultarEstudiantePorId(id);
+        if (estudiantePorId != null) {
+            return estudiantePorId.getNombre() + " " +estudiantePorId.getApellido();
+        }
+        return "Error";
     }
-
+    
+    //public void setEstudiantePorId(Estudiante estudiantePorId) {this.estudiantePorId = estudiantePorId;}
 
     @Override
     public void mostrarEstudiantesDataTable(List<Estudiante> estudiantes) {
         this.estudiantes = estudiantes;
+    }
+
+    @Override
+    public void cargarEstudiante(Estudiante estudiante) {
+        this.estudiantePorId = estudiante;
     }
 
     @Override

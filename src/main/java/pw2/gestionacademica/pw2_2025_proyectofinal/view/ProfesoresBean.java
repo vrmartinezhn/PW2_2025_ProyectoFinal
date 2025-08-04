@@ -1,6 +1,5 @@
 package pw2.gestionacademica.pw2_2025_proyectofinal.view;
 
-import jakarta.enterprise.context.SessionScoped;
 import org.primefaces.PrimeFaces;
 import pw2.gestionacademica.pw2_2025_proyectofinal.controller.ProfesoresInteractor;
 import pw2.gestionacademica.pw2_2025_proyectofinal.controller.ProfesoresInteractorImpl;
@@ -11,17 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
 @Named("ProfesoresBean")
-@SessionScoped
+@ViewScoped
 public class ProfesoresBean implements Serializable, ProfesoresViewModel {
     private List<Profesor> profesores;
     private List<Profesor> profesoresSeleccionados;
     private Profesor profesorSeleccionado;
     private ProfesoresInteractor controller;
+    private Profesor profesorPorId;
+    private int idBusqueda;
 
     public ProfesoresBean() {
         this.profesores = new ArrayList<>();
@@ -38,7 +38,7 @@ public class ProfesoresBean implements Serializable, ProfesoresViewModel {
     public String getDeleteButtonMessage() {
         if (hasProfesorSeleccionado()) {
             int size = this.profesoresSeleccionados.size();
-            return size > 1 ? size + " profesores seleccionados" : "1 profesor seleccionado";
+            return size > 1 ? size + " Profesores seleccionados" : "1 Profesor seleccionado";
         }
 
         return "Eliminar";
@@ -96,10 +96,23 @@ public class ProfesoresBean implements Serializable, ProfesoresViewModel {
     public void setProfesoresSeleccionados(List<Profesor> profesoresSeleccionados) {
         this.profesoresSeleccionados = profesoresSeleccionados;
     }
+    
+    public String mostrarNombreProfesor(int id){
+        controller.consultarProfesorPorId(id);
+        if (profesorPorId != null) {
+            return profesorPorId.getNombre() + " " +profesorPorId.getApellido();
+        }
+        return "Error";
+    }
 
     @Override
     public void mostrarProfesoresDataTable(List<Profesor> profesores) {
         this.profesores = profesores;
+    }
+
+    @Override
+    public void cargarProfesor(Profesor profesor) {
+        this.profesorPorId = profesor;
     }
 
     @Override

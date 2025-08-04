@@ -112,6 +112,10 @@ public class MateriasBean implements Serializable, MateriasViewModel {
         return "Error";
     }
 
+    public List<Materia> obtenerMateriasIdProfesor(int idProfesor) {
+        return controller.getMateriasPorIdProfesor(idProfesor);
+    }
+
     @Override
     public void mostrarMateriasDataTable(List<Materia> materias) {
         this.materias = materias;

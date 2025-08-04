@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/style.css"/>
 </h:head>
 
-<h:body style="background: var(--surface-100)">
+<h:body style="background: var(--surface-100); display: block">
 
     <f:metadata>
         <f:viewAction action="#{LoginBean.evitarCache()}" />
@@ -28,7 +28,7 @@
 
     <div class="table-container table-cal" style="z-index: 10; margin-top: 100px">
         <h:form>
-            <p:dataTable var="calificacion" value="#{CalificacionesBean.calificaciones}"  emptyMessage="No hay calififcaciones disponibles.">
+            <p:dataTable var="calificacion" value="#{CalificacionesBean.obtenerCalificacionesIdEstudiante(LoginBean.estudiante.id)}"  emptyMessage="No hay calififcaciones disponibles.">
 
                 <f:facet name="header">
                     <p:outputLabel value="Calificaciones de #{LoginBean.estudiante.nombreCompletoCuenta()}"/>

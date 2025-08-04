@@ -151,7 +151,8 @@ public class DatabaseRepositoryImpl {
         return response.isSuccessful();
     }
 
-    // tienen que añadirlo
+    
+    //==========================EXTRAS=============================
     public EstudiantesResponse consultarEstudiantePorId(int id) throws IOException {
         Call<EstudiantesResponse> call = client.getInstance().getEstudiantePorId(id);
         Response<EstudiantesResponse> response = call.execute();
@@ -162,10 +163,9 @@ public class DatabaseRepositoryImpl {
         }
     }
 
-
-     public EstudiantesResponse consultarEstudiantePornumero_cuenta(int numero_cuenta) throws IOException {
-        Call<EstudiantesResponse> call = client.getInstance().getEstudiantePornumero_cuenta(numero_cuenta);
-        Response<EstudiantesResponse> response = call.execute();
+    public MateriasResponse consultarMateriaPorId(int id) throws IOException {
+        Call<MateriasResponse> call = client.getInstance().getMateriaPorId(id);
+        Response<MateriasResponse> response = call.execute();
         if (response.isSuccessful()) {
             return response.body();
         } else {
@@ -173,5 +173,34 @@ public class DatabaseRepositoryImpl {
         }
     }
 
+    public ProfesoresResponse consultarProfesorPorId(int id) throws IOException {
+        Call<ProfesoresResponse> call = client.getInstance().getProfesorPorId(id);
+        Response<ProfesoresResponse> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
+
+    public ProfesoresResponse consultarProfesorPorUsuarioContra(String cuenta, String contra) throws IOException {
+        Call<ProfesoresResponse> call = client.getInstance().getProfesorPorUsuarioContra(cuenta, contra);
+        Response<ProfesoresResponse> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
+
+    public EstudiantesResponse consultarEstudiantePornumero_cuenta(int numero_cuenta) throws IOException {
+        Call<EstudiantesResponse> call = client.getInstance().getEstudiantePorNumero_cuenta(numero_cuenta);
+        Response<EstudiantesResponse> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
 }
 

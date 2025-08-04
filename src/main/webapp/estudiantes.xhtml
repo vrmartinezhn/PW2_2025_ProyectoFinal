@@ -58,7 +58,7 @@
 
                 <p:toolbar>
                     <p:toolbarGroup>
-                        <p:commandButton value="Crear" icon="pi pi-plus" actionListener="#{EstudiantesBean.openNew()}"
+                        <p:commandButton value="Nuevo Estudiante" icon="pi pi-plus" actionListener="#{EstudiantesBean.openNew()}"
                                          update=":dialogs:manage-estudiante-content" oncomplete="PF('manageEstudianteDialog').show()"
                                          styleClass="ui-button-success" style="margin-right: .5rem">
                             <p:resetInput target=":dialogs:manage-estudiante-content" />
@@ -72,14 +72,6 @@
                                        icon="pi pi-exclamation-triangle" />
                         </p:commandButton>
 
-                        <!--tienen que añadirlo-->
-                        <p:inputText value="#{EstudiantesBean.idBusqueda}" placeholder="Buscar por ID" />
-                        <p:commandButton value="Buscar" actionListener="#{EstudiantesBean.buscarEstudiantePorId()}" update=":form:dt-estudiantes :form:messages" />
-
-                         <p:inputText value="#{EstudiantesBean.cuentaBusqueda}" placeholder="Buscar por numero de cuenta" />
-                        <p:commandButton value="Buscar" actionListener="#{EstudiantesBean.buscarEstudiantePornumero_cuenta()}" update=":form:dt-estudiantes :form:messages" />
-
-                        <!--Asta aqui-->
                     </p:toolbarGroup>
                 </p:toolbar>
 
@@ -87,10 +79,10 @@
                              reflow="true" styleClass="products-table" selectionMode="multiple" selection="#{EstudiantesBean.selectedEstudiantes}"
                              rowKey="#{est.id}" paginator="true" rows="10" selectionRowMode="add" paginatorPosition="bottom">
                     <f:facet name="header">
-                        <div class="products-table-header">
-                            <span style="font-weight: bold">Estudiantes</span>
+                        <div class="products-table-header" style="text-align: right">
+                            <span style="font-weight: bold"></span>
                             <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
-                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtEstudiantes').filter())" placeholder="Buscar" />
+                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtEstudiantes').filter())" placeholder="Buscar Estudiante" />
                     </span>
                         </div>
                     </f:facet>
@@ -104,25 +96,23 @@
                     <p:column selectionBox="true" exportable="false"/>
 
                     <p:column headerText="Numero Cuenta" sortBy="#{est.numero_cuenta}" filterBy="#{est.numero_cuenta}" filterMatchMode="contains">
-                        <h:outputText value="#{est.id}" />
+                        <h:outputText value="#{est.numero_cuenta}" />
                     </p:column>
-
-
                     <p:column headerText="Nombre" sortBy="#{est.nombre}" filterBy="#{est.nombre}" filterMatchMode="contains">
                         <h:outputText value="#{est.nombre}" />
                     </p:column>
                     <p:column headerText="Apellido" sortBy="#{est.apellido}" filterBy="#{est.apellido}" filterMatchMode="contains">
                         <h:outputText value="#{est.apellido}" />
                     </p:column>
-                    <p:column headerText="Correo">
+                    <p:column headerText="Correo" sortBy="#{est.correo}" filterBy="#{est.correo}">
                         <h:outputText value="#{est.correo}" />
                     </p:column>
 
-                    <p:column headerText="Genero">
+                    <p:column headerText="Genero" sortBy="#{est.genero}" filterBy="#{est.genero}">
                         <h:outputText value="#{est.genero}" />
                     </p:column>
-                    <p:column headerText="Estado">
-                        <h:outputText value="#{est.estatus}" />
+                    <p:column headerText="Estado" sortBy="#{est.estatus}" filterBy="#{est.estatus}">
+                        <h:outputText value="#{est.estatus}"/>
                     </p:column>
 
                     <p:column exportable="false">
@@ -142,7 +132,7 @@
             </h:form>
 
             <h:form id="dialogs">
-                <p:dialog header="Detalles del Estudiante" showEffect="fade" modal="true" widgetVar="manageEstudianteDialog"
+                <p:dialog header="Formulario de Estudiante" showEffect="fade" modal="true" widgetVar="manageEstudianteDialog"
                           responsive="true">
                     <p:outputPanel id="manage-estudiante-content" class="ui-fluid">
                         <p:outputPanel rendered="#{not empty EstudiantesBean.selectedEstudiante}">

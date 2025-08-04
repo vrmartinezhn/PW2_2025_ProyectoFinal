@@ -105,6 +105,11 @@ public class ProfesoresBean implements Serializable, ProfesoresViewModel {
         return "Error";
     }
 
+    public List<Profesor> obtenerProfesores(){
+        System.out.println("obtenerProfesores");
+        return controller.obtenerProfesores();
+    }
+
     @Override
     public void mostrarProfesoresDataTable(List<Profesor> profesores) {
         this.profesores = profesores;

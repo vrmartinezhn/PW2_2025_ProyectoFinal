@@ -8,5 +8,7 @@ public interface ProfesoresInteractor {
     void eliminarProfesor(int id);
     void eliminarProfesores(int[] ids);
     void actualizarProfesor(Profesor profesor);
+    void consultarProfesorPorId(int id);
+    boolean consultarProfesorPorUsuarioContra(String usuario, String contra);
 }
 

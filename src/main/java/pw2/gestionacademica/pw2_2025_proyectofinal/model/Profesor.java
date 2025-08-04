@@ -88,6 +88,6 @@ public class Profesor implements Serializable {
     }
 
     public String nombreCompletoCuenta() {
-        return nombre + " " + apellido + " (" + numero_cuenta + ")";
+        return nombre + " " + apellido + " (" + usuario + ")";
     }
 }

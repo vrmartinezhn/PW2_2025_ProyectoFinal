@@ -8,5 +8,6 @@ public interface MateriasInteractor {
     void actualizarMateria(Materia materia);
     void eliminarMateria(int id);
     void eliminarMaterias(int[] ids);
+    void consultarMateriaPorId(int id);
 }
 

@@ -4,6 +4,10 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
+import pw2.gestionacademica.pw2_2025_proyectofinal.controller.EstudiantesInteractor;
+import pw2.gestionacademica.pw2_2025_proyectofinal.controller.EstudiantesInteractorImpl;
+import pw2.gestionacademica.pw2_2025_proyectofinal.controller.ProfesoresInteractor;
+import pw2.gestionacademica.pw2_2025_proyectofinal.controller.ProfesoresInteractorImpl;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -15,10 +19,17 @@ public class LoginBean implements Serializable{
 
     private String usuario;
     private String contra;
-    private String cuenta;
+    private int cuenta;
     private boolean autenticadoPortalCatedraticos = false;
     private boolean autenticadoPortalPadres = false;
+    private EstudiantesInteractor controllerEstudiantes;
+    private ProfesoresInteractor controllerProfesores;
 
+
+    public LoginBean() {
+        controllerEstudiantes = new EstudiantesInteractorImpl();
+        controllerProfesores = new ProfesoresInteractorImpl();
+    }
 
     public void evitarCache() {
         FacesContext ctx = FacesContext.getCurrentInstance();
@@ -48,7 +59,7 @@ public class LoginBean implements Serializable{
     }
 
     public String loginPortalCatedraticos() {
-        if ("admin".equals(usuario) && "1234".equals(contra)) {
+        if (buscarProfesorPorUsuarioContra()) {
             evitarCache();
             autenticadoPortalCatedraticos = true;
             return "profesores.xhtml?faces-redirect=true";
@@ -59,7 +70,7 @@ public class LoginBean implements Serializable{
     }
 
     public String loginPortalPadres() {
-        if ("123456789".equals(cuenta)) {
+        if (buscarEstudiantePorNumeroCuenta()) {
             evitarCache();
             autenticadoPortalPadres = true;
             return "portal-padres.xhtml?faces-redirect=true";
@@ -86,13 +97,20 @@ public class LoginBean implements Serializable{
     public void setContra(String contra) {
         this.contra = contra;
     }
-    public String getCuenta() {
+    public int getCuenta() {
         return cuenta;
     }
-    public void setCuenta(String cuenta) {
+    public void setCuenta(int cuenta) {
         this.cuenta = cuenta;
     }
 
+    public boolean buscarEstudiantePorNumeroCuenta() {
+        return controllerEstudiantes.consultarEstudiantePorNumero_cuenta(cuenta);
+    }
+
+    public boolean buscarProfesorPorUsuarioContra() {
+        return controllerProfesores.consultarProfesorPorUsuarioContra(usuario, contra);
+    }
 
     public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
         FacesContext.getCurrentInstance().

@@ -139,8 +139,14 @@
                             </div>
                             <div class="formgrid grid">
                                 <div class="field col">
-                                    <p:outputLabel for="id_profesor">Profesor</p:outputLabel>
-                                    <p:inputText id="id_profesor" value="#{MateriasBean.selectedMateria.id_profesor}" required="true" />
+                                    <div class="field col-12 md:col-4">
+                                        <p:outputLabel for="@next" value="Profesor"/>
+                                        <p:selectOneMenu id="option" value="#{MateriasBean.selectedMateria.id_profesor}">
+                                            <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                            <f:selectItems value="#{ProfesoresBean.obtenerProfesores()}" var="profesor"
+                                                           itemLabel="#{profesor.nombre}" itemValue="#{profesor.id}" />
+                                        </p:selectOneMenu>
+                                    </div>
                                 </div>
                                 <div class="field col">
                                     <p:outputLabel for="estado">Estado</p:outputLabel>

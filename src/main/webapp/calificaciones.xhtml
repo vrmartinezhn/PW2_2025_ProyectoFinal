@@ -229,7 +229,7 @@
             </p:dialog>
 
             <p:confirmDialog widgetVar="deleteCalificacionDialog" showEffect="fade" width="300"
-                             message="¿Eliminar la película?" header="Confirmar" severity="warn">
+                             message="¿Eliminar la calificación?" header="Confirmar" severity="warn">
                <p:commandButton value="Si" icon="pi pi-check" actionListener="#{CalificacionesBean.eliminarCalificacion()}"
                                 process="@this" update=":form:delete-button :form:dt-calificaciones"
                                 oncomplete="PF('deleteCalificacionDialog').hide()" />

@@ -202,5 +202,15 @@ public class DatabaseRepositoryImpl {
             return null;
         }
     }
+
+    public MateriasResponse getMateriasPorIdProfesor(int id) throws IOException {
+        Call<MateriasResponse> call = client.getInstance().getMateriasPorIdProfesor(id);
+        Response<MateriasResponse> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
 }
 

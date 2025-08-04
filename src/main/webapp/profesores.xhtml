@@ -52,7 +52,7 @@
 
         <!-- TRABAJAR A PARTIR DE AQUIIIIIIIII -->
 
-        <div class="card crud-demo" style="padding: 1rem; background: var(--surface-100)">
+        <div class="card crud-demo" style="padding: 1rem; background: var(--surface-100); overflow-y: scroll">
             <h:form id="form">
                 <p:growl id="messages" showDetail="true" />
 
@@ -78,9 +78,9 @@
                              rowKey="#{profesor.id}" paginator="true" rows="10" selectionRowMode="add" paginatorPosition="bottom">
                     <f:facet name="header">
                         <div class="professor-table-header" style="text-align: right;">
-                            <span style="font-weight: bold"> </span>
+                            <span style="font-weight: bold"></span>
                             <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
-                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtProfesores').filter())" placeholder="Buscar profesor" />
+                        <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('dtProfesores').filter())" placeholder="Buscar Profesor" />
                     </span>
                         </div>
                     </f:facet>
@@ -108,7 +108,7 @@
                     <p:column headerText="Correo" sortBy="#{profesor.correo}" filterBy="#{profesor.correo}">
                         <h:outputText value="#{profesor.correo}" />
                     </p:column>
-                    <p:column headerText="Estatus" sortBy="#{profesor.estatus}" filterBy="#{profesor.estatus}">
+                    <p:column headerText="Estado" sortBy="#{profesor.estatus}" filterBy="#{profesor.estatus}">
                         <h:outputText value="#{profesor.estatus}" />
                     </p:column>
 

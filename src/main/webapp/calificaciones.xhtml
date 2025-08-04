@@ -157,7 +157,7 @@
                            </div>
                            <div class="field">
                               <p:outputLabel for="materia">Materia</p:outputLabel>
-                              <p:inputText id="materia" value="#{CalificacionesBean.selectedCalificacion.id_materia}" />
+                              <p:inputText id="materia" value="#{CalificacionesBean.selectedCalificacion.id_materia}" required="true"/>
                            </div>
                            <div class="field">
                               <p:outputLabel for="estudiante">Estudiante</p:outputLabel>
@@ -166,7 +166,7 @@
                            <div class="field col">
                                     <div class="field col-12 md:col-4">
                                         <p:outputLabel for="@next" value="Profesor"/>
-                                        <p:selectOneMenu id="option" value="#{CalificacionesBean.selectedCalificacion.id_profesor}">
+                                        <p:selectOneMenu id="option" value="#{CalificacionesBean.selectedCalificacion.id_profesor}" required="true">
                                             <f:selectItem itemLabel="Seleccione" itemValue=""/>
                                             <f:selectItems value="#{ProfesoresBean.obtenerProfesores()}" var="profesor"
                                                            itemLabel="#{profesor.nombre}" itemValue="#{profesor.id}" />
@@ -181,22 +181,22 @@
                            </div>
                            <div class="field">
                               <p:outputLabel for="parcial1">Primer Parcial</p:outputLabel>
-                              <p:inputText id="parcial1" value="#{CalificacionesBean.selectedCalificacion.primer_parcial}" />
+                              <p:inputText id="parcial1" value="#{CalificacionesBean.selectedCalificacion.primer_parcial}" required="true"/>
                            </div>
                            <div class="field">
                               <p:outputLabel for="parcial2">Segundo Parcial</p:outputLabel>
-                              <p:inputText id="parcial2" value="#{CalificacionesBean.selectedCalificacion.segundo_parcial}" />
+                              <p:inputText id="parcial2" value="#{CalificacionesBean.selectedCalificacion.segundo_parcial}" required="true"/>
                            </div>
                            <div class="field">
                               <p:outputLabel for="parcial3">Tercer Parcial</p:outputLabel>
-                              <p:inputText id="parcial3" value="#{CalificacionesBean.selectedCalificacion.tercer_parcial}" />
+                              <p:inputText id="parcial3" value="#{CalificacionesBean.selectedCalificacion.tercer_parcial}" required="true"/>
                            </div>
 
                         </div>
                      </div>
                      <div class="field">
                         <p:outputLabel for="observacion">Observación</p:outputLabel>
-                        <p:inputTextarea id="observacion" value="#{CalificacionesBean.selectedCalificacion.observacion}" />
+                        <p:inputTextarea id="observacion" value="#{CalificacionesBean.selectedCalificacion.observacion}" required="true"/>
                      </div>
 
 

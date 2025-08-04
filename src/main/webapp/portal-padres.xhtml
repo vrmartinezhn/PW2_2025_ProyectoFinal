@@ -19,19 +19,19 @@
     </f:metadata>
 
     <div class="navbar" style="background: #1e1e1e; display: flex; place-content: space-between; padding: 1.5rem">
-        <h1><i class="pi pi-book" style="font-size: 1.7rem; margin-right: 0.5rem"></i>Studify</h1>
+        <h1><i class="pi pi-book" style="font-size: 1.7rem; margin-right: 0.5rem;"></i>Studify</h1>
 
         <h:form>
             <p:commandButton action="#{LoginBean.logout()}" style="font-weight: bold; pointer-events: all;" value="Salir"/>
         </h:form>
     </div>
 
-    <div class="table-container table-cal">
+    <div class="table-container table-cal" style="z-index: 10; margin-top: 100px">
         <h:form>
             <p:dataTable var="calificacion" value="#{CalificacionesBean.calificaciones}"  emptyMessage="No hay calififcaciones disponibles.">
 
                 <f:facet name="header">
-                    <span>Lista de Calificaciones</span>
+                    <p:outputLabel value="Calificaciones de #{LoginBean.estudiante.nombreCompletoCuenta()}"/>
                 </f:facet>
 
                 <p:column headerText="Año" sortBy="#{calificacion.id_estudiante}" filterBy="#{calificacion.id_estudiante}">
@@ -84,15 +84,11 @@
                                 <h:outputText value="#{calificacion.tercer_parcial}" />
                             </p:column>
 
-                        </p:dataTable>
+                            <p:column headerText="Observación" >
+                                <h:outputText value="#{calificacion.observacion}" />
+                            </p:column>
 
-                        <div class="details">
-                            <p:dataTable var="calificacion" value="#{CalificacionesBean.selectedCalificacion}"  emptyMessage="No hay calififcaciones disponibles.">
-                                <p:column headerText="Observación" >
-                                    <h:outputText value="#{calificacion.observacion}" />
-                                </p:column>
-                            </p:dataTable>
-                        </div>
+                        </p:dataTable>
 
                     </h:form>
                 </div>

@@ -1,28 +1,28 @@
 package pw2.gestionacademica.pw2_2025_proyectofinal.controller;
 
-import pw2.gestionacademica.pw2_2025_proyectofinal.model.Profesor;
-import pw2.gestionacademica.pw2_2025_proyectofinal.model.ProfesoresResponse;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.Materia;
+import pw2.gestionacademica.pw2_2025_proyectofinal.model.MateriasResponse;
 import pw2.gestionacademica.pw2_2025_proyectofinal.repository.DatabaseRepositoryImpl;
-import pw2.gestionacademica.pw2_2025_proyectofinal.view.ProfesoresViewModel;
+import pw2.gestionacademica.pw2_2025_proyectofinal.view.MateriasViewModel;
 
-public class ProfesoresInteractorImpl implements ProfesoresInteractor {
+public class MateriasInteractorImpl implements MateriasInteractor {
     private DatabaseRepositoryImpl repositorio;
-    private ProfesoresViewModel vista;
+    private MateriasViewModel vista;
 
-    public ProfesoresInteractorImpl(ProfesoresViewModel vista) {
+    public MateriasInteractorImpl(MateriasViewModel vista) {
         super();
         this.vista = vista;
         this.repositorio = DatabaseRepositoryImpl.getInstance("https://apex.oracle.com", 3L);
     }
 
     @Override
-    public void consultarProfesores() {
+    public void consultarMaterias() {
         try{
-            ProfesoresResponse response = this.repositorio.consultarProfesores();
+            MateriasResponse response = this.repositorio.consultarMaterias();
             if(response == null || response.getItems() == null || response.getItems().isEmpty() || response.getCount() == 0){
-                this.vista.mostrarMensajeError("No se encontraron profesores");
+                this.vista.mostrarMensajeError("No se encontraron Materias");
             }else{
-                this.vista.mostrarProfesoresDataTable(response.getItems());
+                this.vista.mostrarMateriasDataTable(response.getItems());
             }
         }catch(Exception error){
             error.printStackTrace();
@@ -30,29 +30,29 @@ public class ProfesoresInteractorImpl implements ProfesoresInteractor {
     }
 
     @Override
-    public void crearProfesor(Profesor profesor) {
+    public void crearMateria(Materia materia) {
         try{
-            boolean creado = this.repositorio.crearProfesores(profesor);
-            if(creado){
-                this.vista.mostrarMensajeExito("Profesor creado correctamente!");
+            boolean creada = this.repositorio.crearMaterias(materia);
+            if(creada){
+                this.vista.mostrarMensajeExito("Materia creada correctamente");
                 this.vista.refrescarPantalla();
             }else{
-                this.vista.mostrarMensajeError("Error al crear el profesor");
+                this.vista.mostrarMensajeError("Error al crear la Materia");
             }
-        }catch(Exception error){
+        } catch (Exception error) {
             error.printStackTrace();
         }
     }
 
     @Override
-    public void eliminarProfesor(int id) {
+    public void actualizarMateria(Materia materia) {
         try{
-            boolean eliminado = this.repositorio.eliminarProfesores(id);
-            if(eliminado){
-                this.vista.mostrarMensajeExito("Profesor eliminado correctamente!");
+            boolean modificada = this.repositorio.actualizarMaterias(materia);
+            if(modificada){
+                this.vista.mostrarMensajeExito("Materia actualizada correctamente");
                 this.vista.refrescarPantalla();
             }else{
-                this.vista.mostrarMensajeError("Error al eliminar el profesor");
+                this.vista.mostrarMensajeError("Error al actualizar la Materia");
             }
         }catch(Exception error){
             error.printStackTrace();
@@ -60,17 +60,32 @@ public class ProfesoresInteractorImpl implements ProfesoresInteractor {
     }
 
     @Override
-    public void eliminarProfesores(int[] ids) {
+    public void eliminarMateria(int id) {
+        try{
+            boolean eliminada = this.repositorio.eliminarMaterias(id);
+            if(eliminada){
+                this.vista.mostrarMensajeExito("Materia eliminada correctamente");
+                this.vista.refrescarPantalla();
+            }else{
+                this.vista.mostrarMensajeError("Error al eliminar la Materia");
+            }
+        }catch(Exception error){
+            error.printStackTrace();
+        }
+    }
+
+    @Override
+    public void eliminarMaterias(int[] ids) {
         try{
             for(int id : ids){
-                boolean eliminado = this.repositorio.eliminarProfesores(id);
-                if(!eliminado){
-                    this.vista.mostrarMensajeError("Error al eliminar el profesor");
+                boolean eliminada = this.repositorio.eliminarMaterias(id);
+                if(!eliminada){
+                    this.vista.mostrarMensajeError("Error al eliminar las Materias");
                     this.vista.refrescarPantalla();
                     return;
                 }
             }
-            this.vista.mostrarMensajeExito("Profesor eliminado correctamente!");
+            this.vista.mostrarMensajeExito("Materias eliminadas correctamente");
             this.vista.refrescarPantalla();
         }catch(Exception error){
             error.printStackTrace();
@@ -78,17 +93,17 @@ public class ProfesoresInteractorImpl implements ProfesoresInteractor {
     }
 
     @Override
-    public void actualizarProfesor(Profesor profesor) {
-        try{
-            boolean modificado = this.repositorio.actualizarProfesores(profesor);
-            if(modificado){
-                this.vista.mostrarMensajeExito("Profesor actualizado correctamente!");
-                this.vista.refrescarPantalla();
-            }else{
-                this.vista.mostrarMensajeError("Error al actualizar el profesor");
+    public void consultarMateriaPorId(int id) {
+        try {
+            MateriasResponse response = this.repositorio.consultarMateriaPorId(id);
+            if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
+                this.vista.mostrarMensajeError("No se encontró la materia con ID " + id);
+            } else {
+                this.vista.cargarMateria(response.getItems().getFirst());
             }
-        }catch(Exception error){
-            error.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.vista.mostrarMensajeError("Error al consultar materia por ID.");
         }
     }
 }

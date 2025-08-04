@@ -86,4 +86,8 @@ public class Profesor implements Serializable {
     public void setEstatus(String estatus) {
         this.estatus = estatus;
     }
+
+    public String nombreCompletoCuenta() {
+        return nombre + " " + apellido + " (" + numero_cuenta + ")";
+    }
 }
